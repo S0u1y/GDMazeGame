@@ -1,0 +1,99 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://MainMenuScreens/Main Menu.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 125
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="Main Menu" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -325.0
+margin_top = -228.0
+margin_right = 325.0
+margin_bottom = 228.0
+
+[node name="Label" type="Label" parent="Main Menu/VBoxContainer"]
+margin_right = 650.0
+margin_bottom = 147.0
+custom_fonts/font = SubResource( 1 )
+text = "Main Menu"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Menu/VBoxContainer"]
+margin_top = 151.0
+margin_right = 650.0
+margin_bottom = 456.0
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
+margin_right = 650.0
+margin_bottom = 99.0
+size_flags_vertical = 3
+
+[node name="Start Game" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer"]
+margin_left = 239.0
+margin_top = 27.0
+margin_right = 410.0
+margin_bottom = 71.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "Start Game"
+flat = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
+margin_top = 103.0
+margin_right = 650.0
+margin_bottom = 202.0
+size_flags_vertical = 3
+
+[node name="Analysis" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer3"]
+margin_left = 258.0
+margin_top = 27.0
+margin_right = 391.0
+margin_bottom = 71.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "Analysis"
+flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
+margin_top = 206.0
+margin_right = 650.0
+margin_bottom = 305.0
+size_flags_vertical = 3
+
+[node name="Settings" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer2"]
+margin_left = 260.0
+margin_top = 27.0
+margin_right = 389.0
+margin_bottom = 71.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "Settings"
+flat = true
+
+[connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer/Start Game" to="." method="_on_Start_Game_button_down"]
+[connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer3/Analysis" to="." method="_on_Analysis_button_down"]
+[connection signal="pressed" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer2/Settings" to="." method="_on_Settings_pressed"]

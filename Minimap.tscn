@@ -1,0 +1,6 @@
+[gd_scene format=2]
+
+[node name="Minimap" type="ColorRect"]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.760784, 0.631373, 0.282353, 1 )
