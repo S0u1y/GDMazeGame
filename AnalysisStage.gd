@@ -10,6 +10,8 @@ var room_height = GameController.room_height
 onready var walls_node:TileMap = $Walls
 
 func _ready():
+	var minutes = GameController.get_time()/60
+	$CanvasLayer/Time.text = "%d:%d" % [minutes, (minutes - floor(minutes))*100]
 	generate_maze()
 
 func generate_maze():

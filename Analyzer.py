@@ -5,13 +5,16 @@ import time
 class Analyzer:
 	def __init__(self):
 		self.start_time = time.time()
+		self.paused_time = 0
+		self.paused = False
+		self._time = None
 		
 		self.movement = []
 		self.last_move = None
-
+		
 		self.collisions = []
 		self.last_collision = None
-
+		
 		self.heatmap = {}
 		self.last_room = None
 
@@ -30,15 +33,23 @@ class Analyzer:
 				self.heatmap[room] += 1
 			else:
 				self.heatmap[room] = 1
-
+	
+	def toggle_pause_timer(self):
+		self.paused = not self.paused
+		if self.paused:
+			self.pause_start_time = time.time()
+		else:
+			self.paused_time += time.time() - self.pause_start_time
+	
 	def save(self, location):
-		_time = time.time() - self.start_time
+		if not self._time:
+			self._time = time.time() - self.start_time - self.paused_time
 		with open(f"{location}/Analysis", "wb") as output:
 			pickle.dump({
 				"movement": self.movement,
 				"heatmap": self.heatmap,
 				"collisions": self.collisions,
-				"time": _time
+				"time": self._time
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
 	def load(self, filename):
@@ -47,4 +58,4 @@ class Analyzer:
 			self.movement = loaded["movement"]
 			self.heatmap = loaded["heatmap"]
 			self.collisions = loaded["collisions"]
-			self.time = loaded["time"]
+			self._time = loaded["time"]

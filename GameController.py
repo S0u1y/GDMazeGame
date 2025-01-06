@@ -64,9 +64,7 @@ class GameController(Node):
 		self._maze = Maze(self.n_cols, self.n_rows, maze_algorithms.use(str(self.chosen_algorithm))())
 		nx.add_path(self._maze.G, ((0,-1), (0,0)))
 		nx.add_path(self._maze.G, ((self.n_cols-1, self.n_rows-1), (self.n_cols-1, self.n_rows)))
-	
-	def get_maze(self):
-		return self.to_gd(dir(self._maze))
+#		IF the game is multiplayer then make one of the middle cells the last cell (the last cell in nodes list = treasure cell.)
 	
 	def get_maze_algorithms(self):
 		return maze_algorithms.get_keys()
@@ -118,6 +116,9 @@ class GameController(Node):
 	def get_maze_nodes(self):
 		return self.to_gd(list(self._maze.G.nodes))
 	
+	def get_maze_node(self, idx):
+		return self.to_gd(list(self._maze.G.nodes)[idx])
+	
 	def get_maze_node_edges(self, node):
 		return self.to_gd(list(self._maze.G[tuple(node)]))
 	
@@ -143,6 +144,16 @@ class GameController(Node):
 					has_top_passage = True
 		
 		return Array([has_right_passage, has_left_passage, has_top_passage, has_bottom_passage])
+	
+	def get_time(self):
+		return self.to_gd(self._analyzer._time)
+	
+	def toggle_pause_game(self):
+		self.paused = not self.paused
+		self.toggle_pause_timer()
+	
+	def toggle_pause_timer(self):
+		self._analyzer.toggle_pause_timer()
 	
 	def make_tile_cell(self, tile_map:TileMap, x, y, autotile_coord:Vector2):
 		tile_map.set_cell(x,y,0,autotile_coord=autotile_coord)

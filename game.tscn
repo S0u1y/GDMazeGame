@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Game.py" type="Script" id=1]
 [ext_resource path="res://Walls.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://WallsTileMap.tres" type="TileSet" id=5]
 [ext_resource path="res://MapGrid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://PauseMenu.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Treasure.tscn" type="PackedScene" id=8]
 
 [sub_resource type="TileSet" id=9]
 0/name = "Floor"
@@ -53,3 +54,6 @@ zoom = Vector2( 0.4, 0.4 )
 
 [node name="PauseMenu" parent="." instance=ExtResource( 7 )]
 visible = false
+
+[node name="Treasure" parent="." instance=ExtResource( 8 )]
+position = Vector2( 58, 28 )

@@ -1,4 +1,4 @@
-from godot import exposed, export, Array, Node2D, TileMap, NodePath
+from godot import exposed, export, Array, Node2D, TileMap, NodePath, Color
 from godot import *
 
 from Maze import Maze, load_maze
@@ -29,8 +29,6 @@ class Game(Node2D):
 		self.walls_node = self.get_node("Walls")
 		self.floor_node = self.get_node("Floor")
 		self.map = self.get_node("MapGrid")
-		
-		print(GameControllerNode.get_maze())
 		
 		self.generate_maze()
 #		TODO: 	generate coins randomly on map
@@ -102,4 +100,10 @@ class Game(Node2D):
 					self.walls_node.make_wall(room_x+self.room_width-1, room_y, Vector2(2,2))
 				else:
 					self.walls_node.make_wall(room_x+self.room_width-1, room_y, Vector2(1,3))
+		
+#		Get last node and put the treasure inside of it
+		last_node = nodes[-1]
+		treasure_location = [(last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8]
+		self.get_node("Treasure").position = Vector2(treasure_location[0], treasure_location[1])
+		self.map.add_indicator(treasure_location[0], treasure_location[1], Color(255,255,0))
 	
