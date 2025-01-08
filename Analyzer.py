@@ -41,6 +41,11 @@ class Analyzer:
 		else:
 			self.paused_time += time.time() - self.pause_start_time
 	
+	def reset_timer(self):
+		self.paused = False
+		self.pause_start_time = None
+		self.paused_time = 0
+	
 	def save(self, location):
 		if not self._time:
 			self._time = time.time() - self.start_time - self.paused_time

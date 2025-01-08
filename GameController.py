@@ -58,6 +58,8 @@ class GameController(Node):
 	def initialize_new_game(self):
 		self.loaded_maze_location = ""
 		self._analyzer = Analyzer()
+		self._analyzer.reset_timer()
+		self.paused = False
 	
 #	Called when all settings for creating a maze are set
 	def create_maze(self):
@@ -147,6 +149,7 @@ class GameController(Node):
 	
 	def get_time(self):
 		return self.to_gd(self._analyzer._time)
+	
 	
 	def toggle_pause_game(self):
 		self.paused = not self.paused
