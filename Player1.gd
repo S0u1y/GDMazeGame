@@ -13,7 +13,6 @@ onready var state_machine = animation_tree.get("parameters/playback")
 var velocity: Vector2
 
 onready var map = $"../MapGrid"
-onready var walls_node = $"../Walls"
 
 func _ready():
 	update_animation_parameters(Vector2(0, -1.1))

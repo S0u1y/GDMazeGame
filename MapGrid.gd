@@ -2,9 +2,9 @@ extends CanvasLayer
 
 export var minimap_size: Vector2 = Vector2(60,60)
 
-onready var game_node = $".."
-onready var walls_node = $"../Walls"
-onready var pause_menu = $"../PauseMenu"
+onready var game_node = $"%Game"
+onready var walls_node = $"%Walls"
+onready var pause_menu = $"%PauseMenu"
 
 onready var tile_map = $ViewportContainer/Viewport/TileMap
 onready var player_rect = $ViewportContainer/Viewport/PlayerRect
@@ -13,6 +13,8 @@ onready var viewport = $ViewportContainer/Viewport
 
 var map_scale = null
 var showing_map = false
+
+	
 
 func _ready():
 	viewport.size = minimap_size
@@ -30,6 +32,12 @@ func _ready():
 		tile_map.set_scale(Vector2(1, room_height / room_width))
 	
 	map_scale = tile_map.transform.get_scale()
+	if not game_node.is_node_ready():
+		yield(game_node, "ready")
+	for node in GameController.get_maze_nodes():
+		var node_passages = GameController.get_maze_node_passages(node)
+		generate_cell(node[0],node[1],len(GameController.get_maze_node_edges(node)), node_passages)
+	
 
 func _process(_delta):
 	if Input.is_action_just_pressed("toggle_map"):
@@ -90,7 +98,7 @@ func add_indicator(x, y, color: Color):
 
 #divide position by (room_width/height * cell size) and then multiply by the map's cell size.
 func world_to_map_position(x, y) -> Vector2:
-	return Vector2(x / (game_node.room_width*walls_node.cell_size.x) * tile_map.cell_size.x * map_scale.x, y / (game_node.room_height*walls_node.cell_size.y) * tile_map.cell_size.y * map_scale.y)
+	return Vector2(x / (GameController.room_width*walls_node.cell_size.x) * tile_map.cell_size.x * map_scale.x, y / (GameController.room_height*walls_node.cell_size.y) * tile_map.cell_size.y * map_scale.y)
 
 func update_player_position(position:Vector2):
 	player_rect.rect_position = position - player_rect.rect_size/2
@@ -109,8 +117,8 @@ func toggle_map():
 	showing_map = not showing_map
 	
 	if showing_map:
-		if pause_menu.visible:
-			pause_menu.toggle_menu()
+#		if pause_menu.visible:
+#			pause_menu.toggle_menu()
 		
 #		TODO: Get this value from project settings
 		viewport.size = Vector2(1024,600)

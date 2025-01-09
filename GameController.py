@@ -25,8 +25,8 @@ class GameController(Node):
 	
 	loaded_maze_location = export(str)
 	
-	n_cols = export(int)
-	n_rows = export(int)
+	n_cols = export(int, 4)
+	n_rows = export(int, 4)
 	room_width = export(int, 10)
 	room_height = export(int, 10)
 	

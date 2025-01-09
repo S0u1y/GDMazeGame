@@ -21,6 +21,9 @@ class Game(Node2D):
 		global GameControllerNode 
 		GameControllerNode = self.get_node("/root/GameController")
 		
+		GameControllerNode.initialize_new_game()
+		GameControllerNode.create_maze()
+		
 		self.n_cols = GameControllerNode.n_cols
 		self.n_rows = GameControllerNode.n_rows
 		self.room_width = GameControllerNode.room_width
@@ -28,7 +31,6 @@ class Game(Node2D):
 		
 		self.walls_node = self.get_node("Walls")
 		self.floor_node = self.get_node("Floor")
-		self.map = self.get_node("MapGrid")
 		
 		self.generate_maze()
 #		TODO: 	generate coins randomly on map
@@ -57,9 +59,6 @@ class Game(Node2D):
 			for _y in range(self.room_height):
 				for _x in range(self.room_width):
 					self.floor_node.set_cell(_x + room_x,_y + room_y,0,Vector2(0,0))
-			
-#			Convert python array into godot array so it can be passed through
-			self.map.generate_cell(x,y,len(GameControllerNode.get_maze_node_edges(node)), Array([has_right_passage, has_left_passage, has_top_passage, has_bottom_passage]))
 			
 			if not has_right_passage:
 				self.walls_node.make_right_wall(room_x+self.room_width-1, room_y+1, self.room_height-1)
@@ -102,8 +101,8 @@ class Game(Node2D):
 					self.walls_node.make_wall(room_x+self.room_width-1, room_y, Vector2(1,3))
 		
 #		Get last node and put the treasure inside of it
-		last_node = nodes[-1]
-		treasure_location = [(last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8]
-		self.get_node("Treasure").position = Vector2(treasure_location[0], treasure_location[1])
-		self.map.add_indicator(treasure_location[0], treasure_location[1], Color(255,255,0))
+#		last_node = nodes[-1]
+#		treasure_location = [(last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8]
+#		self.get_node("Treasure").position = Vector2(treasure_location[0], treasure_location[1])
+#		self.map.add_indicator(treasure_location[0], treasure_location[1], Color(255,255,0))
 	

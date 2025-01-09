@@ -1,0 +1,108 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Game.py" type="Script" id=1]
+[ext_resource path="res://Walls.gd" type="Script" id=2]
+[ext_resource path="res://assets/WallSet.png" type="Texture" id=3]
+[ext_resource path="res://Player1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://WallsTileMap.tres" type="TileSet" id=5]
+[ext_resource path="res://MapGrid.tscn" type="PackedScene" id=6]
+[ext_resource path="res://PauseMenu.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Treasure.tscn" type="PackedScene" id=8]
+[ext_resource path="res://two_player_game.gd" type="Script" id=9]
+
+[sub_resource type="TileSet" id=9]
+0/name = "Floor"
+0/texture = ExtResource( 3 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 48, 48, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = -1
+
+[node name="TwoPlayerGame" type="Node"]
+script = ExtResource( 9 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="ViewportContainer" type="ViewportContainer" parent="HBoxContainer"]
+margin_right = 512.0
+margin_bottom = 600.0
+
+[node name="Viewport" type="Viewport" parent="HBoxContainer/ViewportContainer"]
+size = Vector2( 512, 600 )
+handle_input_locally = false
+usage = 0
+render_target_update_mode = 3
+
+[node name="Game" type="Node2D" parent="HBoxContainer/ViewportContainer/Viewport"]
+unique_name_in_owner = true
+script = ExtResource( 1 )
+
+[node name="Floor" type="TileMap" parent="HBoxContainer/ViewportContainer/Viewport/Game"]
+tile_set = SubResource( 9 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+
+[node name="Walls" type="TileMap" parent="HBoxContainer/ViewportContainer/Viewport/Game"]
+unique_name_in_owner = true
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 16, 16 )
+cell_quadrant_size = 8
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+script = ExtResource( 2 )
+
+[node name="Player1" parent="HBoxContainer/ViewportContainer/Viewport/Game" instance=ExtResource( 4 )]
+position = Vector2( 33, 28 )
+z_index = 1
+
+[node name="Camera2D" type="Camera2D" parent="HBoxContainer/ViewportContainer/Viewport/Game/Player1"]
+current = true
+zoom = Vector2( 0.4, 0.4 )
+
+[node name="Treasure" parent="HBoxContainer/ViewportContainer/Viewport/Game" instance=ExtResource( 8 )]
+position = Vector2( 58, 28 )
+
+[node name="Player2" parent="HBoxContainer/ViewportContainer/Viewport/Game" instance=ExtResource( 4 )]
+position = Vector2( 22, 28 )
+z_index = 1
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="HBoxContainer/ViewportContainer/Viewport/Game/Player2"]
+position = Vector2( 11, 0 )
+remote_path = NodePath("../../../../../ViewportContainer2/Viewport/Camera2D")
+update_rotation = false
+update_scale = false
+
+[node name="MapGrid" parent="HBoxContainer/ViewportContainer/Viewport/Game" instance=ExtResource( 6 )]
+
+[node name="ViewportContainer2" type="ViewportContainer" parent="HBoxContainer"]
+margin_left = 516.0
+margin_right = 1028.0
+margin_bottom = 600.0
+
+[node name="Viewport" type="Viewport" parent="HBoxContainer/ViewportContainer2"]
+size = Vector2( 512, 600 )
+handle_input_locally = false
+usage = 0
+render_target_update_mode = 3
+
+[node name="Camera2D" type="Camera2D" parent="HBoxContainer/ViewportContainer2/Viewport"]
+position = Vector2( 33, 28 )
+current = true
+zoom = Vector2( 0.4, 0.4 )
+
+[node name="MapGrid" parent="HBoxContainer/ViewportContainer2/Viewport" instance=ExtResource( 6 )]
+
+[node name="PauseMenu" parent="." instance=ExtResource( 7 )]
+unique_name_in_owner = true
+visible = false
