@@ -12,19 +12,14 @@ GameControllerNode = None
 # zásady komentování kódu
 # kouknout na zmeny v sablone latexu jestli neni zmena ve vyhlášeních a popřípadě změnit
 
-#TODO: make an exit/treasure that ends the game and shows score
-
 @exposed
-class Game(Node2D):
-	objects = Array()
-	
+class Game(Node2D):	
 	def _ready(self):
 #		We CAN get the node, but everything we want to get HAS to be exported by the node, therefore it has to be a godot variant..
 		global GameControllerNode 
 		GameControllerNode = self.get_node("/root/GameController")
 		
-		GameControllerNode.initialize_new_game()
-		GameControllerNode.create_maze()
+		self.objects = Array()
 		
 		self.n_cols = GameControllerNode.n_cols
 		self.n_rows = GameControllerNode.n_rows
