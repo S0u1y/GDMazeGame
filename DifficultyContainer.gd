@@ -15,4 +15,8 @@ func _on_Button_pressed():
 	
 	GameController.initialize_new_game()
 	GameController.create_maze()
-	get_tree().change_scene_to(SceneSwapper.get_scene("Game"))
+	if GameController.game_type == "Single":
+		get_tree().change_scene_to(SceneSwapper.get_scene("Game"))
+	else:
+		get_tree().change_scene_to(SceneSwapper.get_scene("TwoPlayerGame"))
+	

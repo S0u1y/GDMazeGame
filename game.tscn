@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Game.py" type="Script" id=1]
 [ext_resource path="res://Walls.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://MapGrid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://PauseMenu.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Treasure.tscn" type="PackedScene" id=8]
+[ext_resource path="res://resources/controls/Player1.tres" type="Resource" id=9]
 
 [sub_resource type="TileSet" id=9]
 0/name = "Floor"
@@ -49,6 +50,7 @@ script = ExtResource( 2 )
 [node name="Player1" parent="Game" instance=ExtResource( 4 )]
 position = Vector2( 33, 28 )
 z_index = 1
+controls = ExtResource( 9 )
 
 [node name="Camera2D" type="Camera2D" parent="Game/Player1"]
 current = true

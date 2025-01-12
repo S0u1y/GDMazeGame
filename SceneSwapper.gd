@@ -3,7 +3,7 @@ extends Node
 var scenes = {
 	"AnalysisStage": load("res://AnalysisStage.tscn"),
 	"Game": load("res://game.tscn"),
-	
+	"TwoPlayerGame": load("res://TwoPlayerGame.tscn"),
 }
 
 func _ready():

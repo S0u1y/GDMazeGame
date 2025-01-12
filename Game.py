@@ -45,6 +45,7 @@ class Game(Node2D):
 		room_index = [int (local_position.x/self.room_width), int (local_position.y/self.room_height)]
 		print("position:", local_position, "room:", room_index)
 
+#	TODO: make generation for MP different
 	def generate_maze(self):
 		nodes = GameControllerNode.get_maze_nodes()
 		

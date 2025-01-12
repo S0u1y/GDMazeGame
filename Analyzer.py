@@ -68,6 +68,7 @@ class Analyzer:
 		except FileExistsError:
 			print("There is no analyzer at[",filename,"].")
 		except Exception as e:
+#			This ensures compatibility with previous versions
 			if filename[-1].isdigit():
 				self.load(filename[:-1])
 				return

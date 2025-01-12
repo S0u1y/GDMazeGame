@@ -46,31 +46,48 @@ size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
 margin_right = 650.0
-margin_bottom = 99.0
+margin_bottom = 73.0
 size_flags_vertical = 3
 
 [node name="Start Game" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer"]
 margin_left = 239.0
-margin_top = 27.0
+margin_top = 14.0
 margin_right = 410.0
-margin_bottom = 71.0
+margin_bottom = 58.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Start Game"
 flat = true
 
-[node name="MarginContainer3" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
-margin_top = 103.0
+[node name="MarginContainer4" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
+margin_top = 77.0
 margin_right = 650.0
-margin_bottom = 202.0
+margin_bottom = 150.0
+size_flags_vertical = 3
+
+[node name="2 Player Game" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer4"]
+margin_left = 216.0
+margin_top = 14.0
+margin_right = 434.0
+margin_bottom = 58.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "2 Player Game"
+flat = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
+margin_top = 154.0
+margin_right = 650.0
+margin_bottom = 227.0
 size_flags_vertical = 3
 
 [node name="Analysis" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer3"]
 margin_left = 258.0
-margin_top = 27.0
+margin_top = 14.0
 margin_right = 391.0
-margin_bottom = 71.0
+margin_bottom = 58.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
@@ -78,16 +95,16 @@ text = "Analysis"
 flat = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
-margin_top = 206.0
+margin_top = 231.0
 margin_right = 650.0
 margin_bottom = 305.0
 size_flags_vertical = 3
 
 [node name="Settings" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer2"]
 margin_left = 260.0
-margin_top = 27.0
+margin_top = 15.0
 margin_right = 389.0
-margin_bottom = 71.0
+margin_bottom = 59.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
@@ -95,5 +112,6 @@ text = "Settings"
 flat = true
 
 [connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer/Start Game" to="." method="_on_Start_Game_button_down"]
+[connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer4/2 Player Game" to="." method="_on_2_Player_Game_button_down"]
 [connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer3/Analysis" to="." method="_on_Analysis_button_down"]
 [connection signal="pressed" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer2/Settings" to="." method="_on_Settings_pressed"]
