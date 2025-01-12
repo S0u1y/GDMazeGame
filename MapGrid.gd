@@ -123,7 +123,7 @@ func toggle_map():
 			pause_menu.toggle_menu()
 		
 #		TODO: Get this value from project settings
-		if get_node("/root/TwoPlayerGame"):
+		if get_tree().root.get_node("TwoPlayerGame"):
 			viewport.size = Vector2(512,600)
 		else:
 			viewport.size = Vector2(1024,600)

@@ -33,7 +33,6 @@ class Game(Node2D):
 		self.generate_maze()
 #		TODO: 	generate coins randomly on map
 #				amount of coins is based on difficulty
-	
 
 	def player_collided(self, collider, position):
 #		Gets the exact cell position the player collides with
@@ -105,4 +104,10 @@ class Game(Node2D):
 		treasure_chest = self.get_node("Treasure")
 		treasure_chest.position = Vector2(treasure_location[0], treasure_location[1])
 		self.objects.append(treasure_chest)
+
+		starting_node = nodes[-2]
+		self.get_node("Player1").position = Vector2((starting_node[0] * self.room_width * 16) + self.room_width*8, (starting_node[1] * self.room_height * 16) + self.room_height*8)
+		if str(GameControllerNode.game_type) == "Multi":
+			last_node = nodes[-1]
+			self.get_node("Player2").position = Vector2((last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8)
 		

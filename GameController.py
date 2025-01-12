@@ -97,22 +97,26 @@ class GameController(Node):
 				"n_rows": self.n_rows,
 				"room_width": self.room_width,
 				"room_height": self.room_height,
+				"game_type": str(self.game_type),
 			}, output, pickle.HIGHEST_PROTOCOL)
 	
 	def load_game(self, game_folder):
 		if self.loaded_maze_location in (None, ""):
 			self.loaded_maze_location = game_folder
+		try:
+			with open(f"{game_folder}/settings", "rb") as _input:
+				loaded = pickle.load(_input)
+				self.n_cols = loaded["n_cols"]
+				self.n_rows = loaded["n_rows"]
+				self.room_width = loaded["room_width"]
+				self.room_height = loaded["room_height"]
+				self.game_type = loaded["game_type"]
+		except KeyError:
+			pass
 		
 		self._maze = load_maze(f"{game_folder}/Maze")
 		for i, analyzer in enumerate(self._analyzers):
 			analyzer.load(f"{game_folder}/Analysis{i}")
-		
-		with open(f"{game_folder}/settings", "rb") as _input:
-			loaded = pickle.load(_input)
-			self.n_cols = loaded["n_cols"]
-			self.n_rows = loaded["n_rows"]
-			self.room_width = loaded["room_width"]
-			self.room_height = loaded["room_height"]
 		
 	
 #	Getter functions work only (or mainly) assuming they get gdvariant input
