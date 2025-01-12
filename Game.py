@@ -16,6 +16,8 @@ GameControllerNode = None
 
 @exposed
 class Game(Node2D):
+	objects = Array()
+	
 	def _ready(self):
 #		We CAN get the node, but everything we want to get HAS to be exported by the node, therefore it has to be a godot variant..
 		global GameControllerNode 
@@ -101,8 +103,9 @@ class Game(Node2D):
 					self.walls_node.make_wall(room_x+self.room_width-1, room_y, Vector2(1,3))
 		
 #		Get last node and put the treasure inside of it
-#		last_node = nodes[-1]
-#		treasure_location = [(last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8]
-#		self.get_node("Treasure").position = Vector2(treasure_location[0], treasure_location[1])
-#		self.map.add_indicator(treasure_location[0], treasure_location[1], Color(255,255,0))
-	
+		last_node = nodes[-1]
+		treasure_location = [(last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8]
+		treasure_chest = self.get_node("Treasure")
+		treasure_chest.position = Vector2(treasure_location[0], treasure_location[1])
+		self.objects.append(treasure_chest)
+		

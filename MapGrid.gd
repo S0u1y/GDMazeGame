@@ -14,7 +14,7 @@ onready var viewport = $ViewportContainer/Viewport
 var map_scale = null
 var showing_map = false
 
-	
+const treasure_class = preload("res://Treasure.gd")
 
 func _ready():
 	viewport.size = minimap_size
@@ -34,6 +34,12 @@ func _ready():
 	map_scale = tile_map.transform.get_scale()
 	if not game_node.is_node_ready():
 		yield(game_node, "ready")
+	
+	for object in game_node.objects:
+		if object is treasure_class:
+			var treasure_location = object.position
+			add_indicator(treasure_location[0], treasure_location[1], Color(255,255,0))
+	
 	for node in GameController.get_maze_nodes():
 		var node_passages = GameController.get_maze_node_passages(node)
 		generate_cell(node[0],node[1],len(GameController.get_maze_node_edges(node)), node_passages)
@@ -117,11 +123,14 @@ func toggle_map():
 	showing_map = not showing_map
 	
 	if showing_map:
-#		if pause_menu.visible:
-#			pause_menu.toggle_menu()
+		if pause_menu.visible:
+			pause_menu.toggle_menu()
 		
 #		TODO: Get this value from project settings
-		viewport.size = Vector2(1024,600)
+		if get_node("/root/TwoPlayerGame"):
+			viewport.size = Vector2(512,600)
+		else:
+			viewport.size = Vector2(1024,600)
 		viewport_container.set_anchors_and_margins_preset(viewport_container.PRESET_WIDE)
 
 		switch_camera()

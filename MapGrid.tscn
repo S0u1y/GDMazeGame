@@ -49,7 +49,6 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 20, 20 )
 cell_quadrant_size = 8
 format = 1
-tile_data = PoolIntArray( 3, 0, 0, 4, 0, 0, 131079, 0, 0, 196611, 0, 0, 196615, 0, 0, 262147, 0, 0, 327687, 0, 0, 458753, 0, 0, 458756, 0, 0, 458759, 0, 0 )
 
 [node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport/TileMap"]
 position = Vector2( 2, 2 )
