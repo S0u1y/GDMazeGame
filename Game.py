@@ -12,6 +12,7 @@ GameControllerNode = None
 # zásady komentování kódu
 # kouknout na zmeny v sablone latexu jestli neni zmena ve vyhlášeních a popřípadě změnit
 
+#TODO: finish up 2Player game
 @exposed
 class Game(Node2D):	
 	def _ready(self):
@@ -98,9 +99,9 @@ class Game(Node2D):
 				else:
 					self.walls_node.make_wall(room_x+self.room_width-1, room_y, Vector2(1,3))
 		
-#		Get last node and put the treasure inside of it
-		last_node = nodes[-1]
-		treasure_location = [(last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8]
+#		Spawn treasure
+		treasure_node = nodes[-1] if str(GameControllerNode.game_type) == "Single" else (self.n_cols/2, self.n_rows/2)
+		treasure_location = [(treasure_node[0] * self.room_width * 16) + self.room_width*8, (treasure_node[1] * self.room_height * 16) + self.room_height*8]
 		treasure_chest = self.get_node("Treasure")
 		treasure_chest.position = Vector2(treasure_location[0], treasure_location[1])
 		self.objects.append(treasure_chest)

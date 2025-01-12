@@ -69,8 +69,6 @@ class GameController(Node):
 		self._maze = Maze(self.n_cols, self.n_rows, maze_algorithms.use(str(self.chosen_algorithm))())
 		nx.add_path(self._maze.G, ((0,-1), (0,0)))
 		nx.add_path(self._maze.G, ((self.n_cols-1, self.n_rows-1), (self.n_cols-1, self.n_rows)))
-#		IF the game is multiplayer then make one of the middle cells the last cell (the last cell in nodes list = treasure cell.)
-#		print(self.get_node("/root/TwoPlayerGame"))
 	
 	def get_maze_algorithms(self):
 		return maze_algorithms.get_keys()
