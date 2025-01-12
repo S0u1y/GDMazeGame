@@ -1,3 +1,12 @@
-[gd_resource type="Resource" format=2]
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://resources/controls/PlayerControls.gd" type="Script" id=1]
 
 [resource]
+script = ExtResource( 1 )
+move_left = "p2_move_left"
+move_right = "p2_move_right"
+move_up = "p2_move_up"
+move_down = "p2_move_down"
+toggle_map = "p2_toggle_map"
+toggle_run = "p2_toggle_run"

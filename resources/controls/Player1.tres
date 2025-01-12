@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource( 1 )
-move_left = ""
-move_right = ""
-move_up = ""
-move_down = ""
+move_left = "p1_move_left"
+move_right = "p1_move_right"
+move_up = "p1_move_up"
+move_down = "p1_move_down"
+toggle_map = "p1_toggle_map"
+toggle_run = "p1_toggle_run"

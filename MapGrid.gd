@@ -45,10 +45,6 @@ func _ready():
 		generate_cell(node[0],node[1],len(GameController.get_maze_node_edges(node)), node_passages)
 	
 
-func _process(_delta):
-	if Input.is_action_just_pressed("toggle_map"):
-		toggle_map()
-
 func make_wall(x,y,tile_coord):
 	GameController.make_tile_cell(tile_map, x, y, tile_coord)
 

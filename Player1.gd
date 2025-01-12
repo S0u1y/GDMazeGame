@@ -3,6 +3,9 @@ extends KinematicBody2D
 export var move_speed: float = 100
 var running = false
 
+export var controls: Resource = null
+var player_controls: PlayerControls
+
 var coins = 0
 var score = 0
 
@@ -15,6 +18,10 @@ var velocity: Vector2
 onready var map = $"../MapGrid"
 
 func _ready():
+	if not controls:
+		print("Player controls have not been set!")
+		set_physics_process(false)
+	player_controls = controls
 	update_animation_parameters(Vector2(0, -1.1))
 
 var tick_count = 0
@@ -26,8 +33,8 @@ func _physics_process(_delta):
 		return
 	
 	var input_direction = Vector2(
-			Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-			Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+			Input.get_action_strength(player_controls.move_right) - Input.get_action_strength(player_controls.move_left),
+			Input.get_action_strength(player_controls.move_down) - Input.get_action_strength(player_controls.move_up)
 		)	
 	velocity = input_direction * move_speed
 	
@@ -52,13 +59,15 @@ func _physics_process(_delta):
 		GameController.analyze_movement(self.position.x, self.position.y)
 
 func _input(event):
-	if event.is_action_pressed("toggle_run"):
+	if event.is_action_pressed(player_controls.toggle_run):
 		if not running:
 			move_speed *= 1.35
 		else:
 			move_speed /= 1.35
 		
 		running = not running
+	elif event.is_action_pressed(player_controls.toggle_map):
+		map.toggle_map()
 
 func update_animation_parameters(move_input: Vector2):
 	if move_input != Vector2.ZERO:
