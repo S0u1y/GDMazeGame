@@ -11,4 +11,4 @@ func _ready():
 	player2_viewport.world_2d = player1_viewport.world_2d
 	player1.map = $HBoxContainer/ViewportContainer/Viewport/Game/MapGrid
 	player2.map = $HBoxContainer/ViewportContainer2/Viewport/MapGrid
-	pass 
+	

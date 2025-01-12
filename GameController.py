@@ -30,15 +30,15 @@ class GameController(Node):
 	room_width = export(int, 10)
 	room_height = export(int, 10)
 	
-	_analyzer: Analyzer = None
+	_analyzers = []
 	
 	saves_folder = USER_LOCATION + "/saves/"
 	
 	paused = False
 	
 	def _ready(self):
-		self._analyzer = Analyzer()
-	
+		self._analyzers = [Analyzer(), Analyzer()]
+
 		self.make_folder()
 		self.make_folder("analysis")
 		self.make_folder("data")
@@ -50,15 +50,16 @@ class GameController(Node):
 		except FileExistsError:
 			pass
 		except PermissionError:
-			error("A permissions error has occured")
+			print("A permissions error has occured")
 		except Exception as e:
-			error("An error occured:", e)
+			print("An error occured:", e)
 	
 #	Called when we need to reset game state
 	def initialize_new_game(self):
 		self.loaded_maze_location = ""
-		self._analyzer = Analyzer()
-		self._analyzer.reset_timer()
+		self._analyzers = [Analyzer(), Analyzer()]
+		for analyzer in self._analyzers:
+			analyzer.reset_timer()
 		self.paused = False
 	
 #	Called when all settings for creating a maze are set
@@ -72,12 +73,12 @@ class GameController(Node):
 		return maze_algorithms.get_keys()
 	
 	def get_analyzed_movement(self):
-		movement = self._analyzer.movement
-		gd_movement = Array()
-		for move in movement:
-			gd_movement.append(Vector2(move[0], move[1]))
+		movement = [[] for x in self._analyzers]
+		for i, analyzer in enumerate(self._analyzers):
+			for move in analyzer.movement:
+				movement[i].append(Vector2(move[0], move[1]))
 		
-		return gd_movement
+		return self.to_gd(movement)
 	
 	def save_game(self):
 		current_time = datetime.datetime.now()
@@ -86,7 +87,8 @@ class GameController(Node):
 		os.mkdir(new_folder_location)
 		
 		self._maze.save(f"{new_folder_location}/Maze")
-		self._analyzer.save(new_folder_location)
+		for i, analyzer in enumerate(self._analyzers):
+			analyzer.save(f"{new_folder_location}/Analysis{i}")
 		
 		with open(f"{new_folder_location}/settings", "wb") as output:
 			pickle.dump({
@@ -101,7 +103,8 @@ class GameController(Node):
 			self.loaded_maze_location = game_folder
 		
 		self._maze = load_maze(f"{game_folder}/Maze")
-		self._analyzer.load(f"{game_folder}/Analysis")
+		for i, analyzer in enumerate(self._analyzers):
+			analyzer.load(f"{game_folder}/Analysis{i}")
 		
 		with open(f"{game_folder}/settings", "rb") as _input:
 			loaded = pickle.load(_input)
@@ -148,7 +151,7 @@ class GameController(Node):
 		return Array([has_right_passage, has_left_passage, has_top_passage, has_bottom_passage])
 	
 	def get_time(self):
-		return self.to_gd(self._analyzer._time)
+		return self.to_gd(self._analyzers[0]._time)
 	
 	
 	def toggle_pause_game(self):
@@ -156,16 +159,17 @@ class GameController(Node):
 		self.toggle_pause_timer()
 	
 	def toggle_pause_timer(self):
-		self._analyzer.toggle_pause_timer()
+		for analyzer in self._analyzers:
+			analyzer.toggle_pause_timer()
 	
 	def make_tile_cell(self, tile_map:TileMap, x, y, autotile_coord:Vector2):
 		tile_map.set_cell(x,y,0,autotile_coord=autotile_coord)
 
-	def analyze_movement(self, player_x, player_y):
-		self._analyzer.analyze_movement(player_x, player_y)
+	def analyze_movement(self, player_x, player_y, player_idx):
+		self._analyzers[player_idx].analyze_movement(player_x, player_y)
 
-	def analyze_collisions(self, world_x, world_y, wall_x, wall_y):
-		self._analyzer.analyze_collision(world_x, world_y, wall_x, wall_y)
+	def analyze_collisions(self, world_x, world_y, wall_x, wall_y, player_idx):
+		self._analyzers[player_idx].analyze_collisions(world_x, world_y, wall_x, wall_y)
 
 	def to_gd(self, var):
 		if isinstance(var, (list, tuple)):

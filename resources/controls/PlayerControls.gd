@@ -1,6 +1,8 @@
 class_name PlayerControls
 extends Resource
 
+export var player_index: int = 0
+
 export var move_left: String
 export var move_right: String
 export var move_up: String

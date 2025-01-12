@@ -49,7 +49,7 @@ class Analyzer:
 	def save(self, location):
 		if not self._time:
 			self._time = time.time() - self.start_time - self.paused_time
-		with open(f"{location}/Analysis", "wb") as output:
+		with open(location, "wb") as output:
 			pickle.dump({
 				"movement": self.movement,
 				"heatmap": self.heatmap,
@@ -58,9 +58,17 @@ class Analyzer:
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
 	def load(self, filename):
-		with open(filename, "rb") as _input:
-			loaded = pickle.load(_input)
-			self.movement = loaded["movement"]
-			self.heatmap = loaded["heatmap"]
-			self.collisions = loaded["collisions"]
-			self._time = loaded["time"]
+		try:
+			with open(filename, "rb") as _input:
+				loaded = pickle.load(_input)
+				self.movement = loaded["movement"]
+				self.heatmap = loaded["heatmap"]
+				self.collisions = loaded["collisions"]
+				self._time = loaded["time"]
+		except FileExistsError:
+			print("There is no analyzer at[",filename,"].")
+		except Exception as e:
+			if filename[-1].isdigit():
+				self.load(filename[:-1])
+				return
+			print("There was an error reading the file:", e)

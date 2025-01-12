@@ -56,7 +56,7 @@ func _physics_process(_delta):
 	tick_count +=1
 	if tick_count > 20:
 		tick_count = 0
-		GameController.analyze_movement(self.position.x, self.position.y)
+		GameController.analyze_movement(self.position.x, self.position.y, player_controls.player_index)
 
 func _input(event):
 	if event.is_action_pressed(player_controls.toggle_run):
