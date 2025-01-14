@@ -39,7 +39,6 @@ class Game(Node2D):
 		room_index = [int (local_position.x/self.room_width), int (local_position.y/self.room_height)]
 		print("position:", local_position, "room:", room_index)
 
-#	TODO: make generation for MP different
 	def generate_maze(self):
 		nodes = GameControllerNode.get_maze_nodes()
 		
@@ -62,12 +61,13 @@ class Game(Node2D):
 			if not has_left_passage:
 				self.walls_node.make_left_wall(room_x, room_y+1, self.room_height-1)
 			if not has_bottom_passage:
-				if has_right_passage and has_left_passage:
-					self.walls_node.make_straight_bottom_wall(room_x, room_y+self.room_height-1, self.room_width)
-				else:
-					if has_right_passage and not has_left_passage:
+				if has_right_passage:
+					if has_left_passage:
+						self.walls_node.make_straight_bottom_wall(room_x, room_y+self.room_height-1, self.room_width)
+					else:
 						self.walls_node.make_left_bottom_wall(room_x, room_y+self.room_height-1, self.room_width)
-					elif has_left_passage and not has_right_passage:
+				else:
+					if has_left_passage:
 						self.walls_node.make_right_bottom_wall(room_x, room_y+self.room_height-1, self.room_width)
 					else:
 						self.walls_node.make_bottom_wall(room_x, room_y+self.room_height-1, self.room_width)
@@ -78,12 +78,13 @@ class Game(Node2D):
 					self.walls_node.make_wall(room_x, room_y+self.room_height-1, Vector2(2,5))
 			
 			if not has_top_passage:
-				if has_right_passage and has_left_passage:
-					self.walls_node.make_straight_top_wall(room_x, room_y, self.room_width)
-				else:
-					if has_right_passage and not has_left_passage:
+				if has_right_passage:
+					if has_left_passage:
+						self.walls_node.make_straight_top_wall(room_x, room_y, self.room_width)
+					else:
 						self.walls_node.make_left_top_wall(room_x, room_y, self.room_width)
-					elif not has_right_passage and has_left_passage:
+				else:
+					if has_left_passage:
 						self.walls_node.make_right_top_wall(room_x, room_y, self.room_width)
 					else:
 						self.walls_node.make_top_wall(room_x, room_y, self.room_width)
