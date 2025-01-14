@@ -12,7 +12,6 @@ GameControllerNode = None
 # zásady komentování kódu
 # kouknout na zmeny v sablone latexu jestli neni zmena ve vyhlášeních a popřípadě změnit
 
-#TODO: finish up 2Player game
 @exposed
 class Game(Node2D):	
 	def _ready(self):

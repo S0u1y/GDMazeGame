@@ -50,16 +50,16 @@ margin_bottom = 305.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MarginContainer" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
+[node name="Easy" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
 margin_left = 101.0
 margin_right = 113.0
 
-[node name="MarginContainer2" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
+[node name="Medium" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
 margin_left = 319.0
 margin_right = 331.0
 difficulty = ExtResource( 4 )
 
-[node name="MarginContainer3" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
+[node name="Hard" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
 margin_left = 537.0
 margin_right = 549.0
 difficulty = ExtResource( 5 )

@@ -6,3 +6,4 @@
 script = ExtResource( 1 )
 name = "Easy"
 size = Vector2( 10, 10 )
+multiplayer_size = Vector2( 20, 20 )
