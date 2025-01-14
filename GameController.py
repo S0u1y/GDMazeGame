@@ -1,4 +1,4 @@
-from godot import exposed, export, Vector2, TileMap, Node2D, Array
+from godot import exposed, export, Vector2, TileMap, Node2D, Array, Dictionary, GDString
 from godot.bindings import *
 
 import os
@@ -17,7 +17,8 @@ USER_LOCATION = str(ProjectSettings.globalize_path("user://"))
 # TODO: set main game settings in here
 @exposed
 class GameController(Node):
-#	GDScript can't see maze as maze, so it should be accessed through some getter
+	data = Dictionary({"coins":0})
+	
 	_maze: Maze = None
 	chosen_algorithm = export(str, "TruePrimsMST") 
 	game_difficulty = export(str)
@@ -40,10 +41,19 @@ class GameController(Node):
 	
 	def _ready(self):
 		self._analyzers = [Analyzer(), Analyzer()]
-
+		
 		self.make_folder()
 		self.make_folder("analysis")
 		self.make_folder("data")
+		try:
+			with open(f"{self.saves_folder}/data/data", "rb") as _input:
+				loaded = pickle.load(_input)
+				self.data = self.to_gd(loaded)
+		except FileNotFoundError:
+			pass
+		except EOFError:
+			pass
+		
 	
 #	TODO: handle permission error and other errors but skip fileExists err.
 	def make_folder(self, name:str=""):
@@ -99,6 +109,9 @@ class GameController(Node):
 				"room_height": self.room_height,
 				"game_type": str(self.game_type),
 			}, output, pickle.HIGHEST_PROTOCOL)
+		
+		with open(f"{self.saves_folder}/data/data", "wb") as output:
+			pickle.dump(self.from_gd(self.data), output, pickle.HIGHEST_PROTOCOL)
 	
 	def load_game(self, game_folder):
 		if self.loaded_maze_location in (None, ""):
@@ -182,6 +195,25 @@ class GameController(Node):
 		elif isinstance(var, dict):
 			return Dictionary({self.to_gd(key): self.to_gd(value) for key, value in var.items()})
 		
+		return var
+
+	def from_gd(self, var):
+		if isinstance(var, (tuple, list)):
+			py_var = [self.from_gd(item) for item in var]
+			if isinstance(var, tuple):
+				py_var = tuple(py_var)
+			return py_var
+		if isinstance(var, Array):
+			py_var = [self.from_gd(item) for item in var]
+			return py_var
+		if isinstance(var, Dictionary):
+			py_keys = [self.from_gd(key) for key in var.keys()]
+			py_values = [self.from_gd(value) for value in var.values()]
+			py_var = dict(zip(py_keys, py_values))
+			return py_var
+		if isinstance(var, GDString):
+			py_var = str(var)
+			return py_var
 		return var
 
 #self = GameController
