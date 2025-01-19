@@ -1,9 +1,6 @@
 from godot import exposed, export, Array, Node2D, TileMap, NodePath, Color
 from godot import *
 
-from Maze import Maze, load_maze
-from Maze_Generators import *
-
 GameControllerNode = None
 
 # TODO: add coins, keys or collectable items
@@ -37,7 +34,7 @@ class Game(Node2D):
 #		Gets the exact cell position the player collides with
 		local_position = collider.world_to_map(position)
 		room_index = [int (local_position.x/self.room_width), int (local_position.y/self.room_height)]
-		print("position:", local_position, "room:", room_index)
+#		print("position:", local_position, "room:", room_index)
 
 	def generate_maze(self):
 		nodes = GameControllerNode.get_maze_nodes()
@@ -60,6 +57,7 @@ class Game(Node2D):
 				self.walls_node.make_right_wall(room_x+self.room_width-1, room_y+1, self.room_height-1)
 			if not has_left_passage:
 				self.walls_node.make_left_wall(room_x, room_y+1, self.room_height-1)
+			
 			if not has_bottom_passage:
 				if has_right_passage:
 					if has_left_passage:

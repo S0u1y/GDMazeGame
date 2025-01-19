@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/MinimapGrids.png" type="Texture" id=1]
-[ext_resource path="res://MapGrid.gd" type="Script" id=2]
-[ext_resource path="res://MapGridCamera.gd" type="Script" id=3]
+[ext_resource path="res://Game/MapGrid.gd" type="Script" id=2]
+[ext_resource path="res://Game/MapGridCamera.gd" type="Script" id=3]
 
 [sub_resource type="TileSet" id=1]
 0/name = "MinimapGrids.png 0"
@@ -41,6 +41,7 @@ mouse_filter = 2
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 60, 60 )
 handle_input_locally = false
+hdr = false
 usage = 0
 render_target_update_mode = 3
 

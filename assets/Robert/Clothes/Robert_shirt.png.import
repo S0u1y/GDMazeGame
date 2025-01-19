@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Robert_sprites.png-17240ee0dd022b16bc8cdba749cfcebf.stex"
+path="res://.import/Robert_shirt.png-f7a81e271f7f4458f6ee134f193b9a00.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Robert_sprites.png"
-dest_files=[ "res://.import/Robert_sprites.png-17240ee0dd022b16bc8cdba749cfcebf.stex" ]
+source_file="res://assets/Robert/Clothes/Robert_shirt.png"
+dest_files=[ "res://.import/Robert_shirt.png-f7a81e271f7f4458f6ee134f193b9a00.stex" ]
 
 [params]
 

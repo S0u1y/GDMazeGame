@@ -1,9 +1,9 @@
 extends Node
 
 var scenes = {
-	"AnalysisStage": load("res://AnalysisStage.tscn"),
-	"Game": load("res://game.tscn"),
-	"TwoPlayerGame": load("res://TwoPlayerGame.tscn"),
+	"AnalysisStage": load("res://Analysis/AnalysisStage.tscn"),
+	"Game": load("res://Game/Game.tscn"),
+	"TwoPlayerGame": load("res://Game/TwoPlayerGame.tscn"),
 }
 
 func _ready():

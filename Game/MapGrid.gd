@@ -11,10 +11,13 @@ onready var player_rect = $ViewportContainer/Viewport/PlayerRect
 onready var viewport_container = $ViewportContainer
 onready var viewport = $ViewportContainer/Viewport
 
+export var player: NodePath
+onready var player_node = get_node(player)
+
 var map_scale = null
 var showing_map = false
 
-const treasure_class = preload("res://Treasure.gd")
+const treasure_class = preload("res://PickupableItems/Treasure.gd")
 
 func _ready():
 	viewport.size = minimap_size
@@ -44,6 +47,11 @@ func _ready():
 		var node_passages = GameController.get_maze_node_passages(node)
 		generate_cell(node[0],node[1],len(GameController.get_maze_node_edges(node)), node_passages)
 	
+	player_node.connect("player_moved", self, "_on_player_moved")
+	player_node.connect("toggle_map", self, "toggle_map")
+	
+func _on_player_moved(player_x, player_y):
+	update_player_position(world_to_map_position(player_x, player_y))
 
 func make_wall(x,y,tile_coord):
 	GameController.make_tile_cell(tile_map, x, y, tile_coord)
@@ -122,8 +130,7 @@ func toggle_map():
 		if pause_menu.visible:
 			pause_menu.toggle_menu()
 		
-#		TODO: Get this value from project settings
-		if get_tree().root.get_node("TwoPlayerGame"):
+		if GameController.game_type == "Multi":
 			viewport.size = Vector2(512,600)
 		else:
 			viewport.size = Vector2(1024,600)

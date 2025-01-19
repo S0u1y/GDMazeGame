@@ -8,11 +8,14 @@ import csv
 
 import pickle
 
-from Maze import Maze, load_maze
-from Maze_Generators import *
-from Analyzer import Analyzer
+from GlobalScripts.Maze import Maze, load_maze
+from GlobalScripts.Maze_Generators import *
+from GlobalScripts.Analyzer import Analyzer
 
 USER_LOCATION = str(ProjectSettings.globalize_path("user://"))
+#AnalysisStage:
+# TODO: add support for heatmap?
+# TODO: add handling for more than 2 player colors?
 
 # TODO: set main game settings in here
 @exposed
@@ -30,8 +33,8 @@ class GameController(Node):
 	
 	n_cols = export(int, 4)
 	n_rows = export(int, 4)
-	room_width = export(int, 10)
-	room_height = export(int, 10)
+	room_width = export(int, 8)
+	room_height = export(int, 8)
 	
 	_analyzers = []
 	
@@ -91,46 +94,14 @@ class GameController(Node):
 		
 		return self.to_gd(movement)
 	
-	def save_game(self):
-		current_time = datetime.datetime.now()
-		tail = f"{current_time.year}-{current_time.month}-{current_time.day} {current_time.hour}-{current_time.minute}-{current_time.second}"
-		new_folder_location = f"{self.saves_folder}/analysis/{tail}"
-		os.mkdir(new_folder_location)
-		
-		self._maze.save(f"{new_folder_location}/Maze")
+	def get_analyzed_collisions(self):
+		collisions = [[] for x in self._analyzers]
 		for i, analyzer in enumerate(self._analyzers):
-			analyzer.save(f"{new_folder_location}/Analysis{i}")
+			for collision in analyzer.collisions:
+				collisions[i].append(Vector2(collision[0], collision[1]))
 		
-		with open(f"{new_folder_location}/settings", "wb") as output:
-			pickle.dump({
-				"n_cols": self.n_cols,
-				"n_rows": self.n_rows,
-				"room_width": self.room_width,
-				"room_height": self.room_height,
-				"game_type": str(self.game_type),
-			}, output, pickle.HIGHEST_PROTOCOL)
-		
-		with open(f"{self.saves_folder}/data/data", "wb") as output:
-			pickle.dump(self.from_gd(self.data), output, pickle.HIGHEST_PROTOCOL)
+		return self.to_gd(collisions)
 	
-	def load_game(self, game_folder):
-		if self.loaded_maze_location in (None, ""):
-			self.loaded_maze_location = game_folder
-		try:
-			with open(f"{game_folder}/settings", "rb") as _input:
-				loaded = pickle.load(_input)
-				self.n_cols = loaded["n_cols"]
-				self.n_rows = loaded["n_rows"]
-				self.room_width = loaded["room_width"]
-				self.room_height = loaded["room_height"]
-				self.game_type = loaded["game_type"]
-		except KeyError:
-			pass
-		
-		self._maze = load_maze(f"{game_folder}/Maze")
-		for i, analyzer in enumerate(self._analyzers):
-			analyzer.load(f"{game_folder}/Analysis{i}")
-		
 	
 #	Getter functions work only (or mainly) assuming they get gdvariant input
 	def get_maze_edges(self):
@@ -189,6 +160,10 @@ class GameController(Node):
 	def analyze_collisions(self, world_x, world_y, wall_x, wall_y, player_idx):
 		self._analyzers[player_idx].analyze_collisions(world_x, world_y, wall_x, wall_y)
 
+	def analyze_heatmap(self, player_x, player_y, player_idx):
+		room_index = [int (player_x/(self.room_width * 16)), int (player_y/(self.room_height * 16))]
+		self._analyzers[player_idx].analyze_heatmap(room_index[0], room_index[1])
+
 	def to_gd(self, var):
 		if isinstance(var, (list, tuple)):
 			return Array([self.to_gd(item) for item in var])
@@ -215,5 +190,46 @@ class GameController(Node):
 			py_var = str(var)
 			return py_var
 		return var
+	
+	def save_game(self):
+		current_time = datetime.datetime.now()
+		tail = f"{current_time.year}-{current_time.month}-{current_time.day} {current_time.hour}-{current_time.minute}-{current_time.second}"
+		new_folder_location = f"{self.saves_folder}/analysis/{tail}"
+		os.mkdir(new_folder_location)
+		
+		self._maze.save(f"{new_folder_location}/Maze")
+		for i, analyzer in enumerate(self._analyzers):
+			analyzer.save(f"{new_folder_location}/Analysis{i}")
+		
+		with open(f"{new_folder_location}/settings", "wb") as output:
+			pickle.dump({
+				"n_cols": self.n_cols,
+				"n_rows": self.n_rows,
+				"room_width": self.room_width,
+				"room_height": self.room_height,
+				"game_type": str(self.game_type),
+			}, output, pickle.HIGHEST_PROTOCOL)
+		
+		with open(f"{self.saves_folder}/data/data", "wb") as output:
+			pickle.dump(self.from_gd(self.data), output, pickle.HIGHEST_PROTOCOL)
+	
+	def load_game(self, game_folder):
+		if self.loaded_maze_location in (None, ""):
+			self.loaded_maze_location = game_folder
+		try:
+			with open(f"{game_folder}/settings", "rb") as _input:
+				loaded = pickle.load(_input)
+				self.n_cols = loaded["n_cols"]
+				self.n_rows = loaded["n_rows"]
+				self.room_width = loaded["room_width"]
+				self.room_height = loaded["room_height"]
+				self.game_type = loaded["game_type"]
+		except KeyError:
+			pass
+		
+		self._maze = load_maze(f"{game_folder}/Maze")
+		for i, analyzer in enumerate(self._analyzers):
+			analyzer.load(f"{game_folder}/Analysis{i}")
+		
 
 #self = GameController

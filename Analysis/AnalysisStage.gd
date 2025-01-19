@@ -8,11 +8,43 @@ var room_width = GameController.room_width
 var room_height = GameController.room_height
 
 onready var walls_node:TileMap = $Walls
+onready var collision = $Collisions/Collision
+
+var colors = [
+	Color(128, 0, 0),
+	Color(0, 0, 128)
+]
+var selected_player_idx = 0
 
 func _ready():
 	var minutes = GameController.get_time()/60
 	$CanvasLayer/Time.text = "%d:%d" % [minutes, (minutes - floor(minutes))*100]
+	
+	var movements: Array = GameController.get_analyzed_movement()
+	for i in movements.size():
+		if movements[i].empty():
+			break
+		
+		var new_path = $Paths/PlayerPath.duplicate()
+		new_path.movements = movements[i]
+		new_path.color = colors[i]
+		new_path.emit_signal("draw")
+		$Paths.add_child(new_path)
+		
+		var new_player_idx_button = Button.new()
+		new_player_idx_button.text = "Player#%d" % i
+		$CanvasLayer/VBoxContainer/ScrollContainer/HBoxContainer.add_child(new_player_idx_button)
+		new_player_idx_button.connect("pressed", self, "select_player", [i])
+		
+	
+	generate_collisions()
 	generate_maze()
+	
+
+func select_player(idx):
+	selected_player_idx = idx
+	$CanvasLayer/VBoxContainer/ShowPath.pressed = $Paths.get_children()[selected_player_idx+1].visible
+	$CanvasLayer/VBoxContainer/ShowCollisions.pressed = $Collisions.get_children()[selected_player_idx+1].visible
 
 func generate_maze():
 #		Create maze walls from graph
@@ -68,6 +100,37 @@ func generate_maze():
 			else:
 				walls_node.make_wall(room_x+room_width-1, room_y, Vector2(1,3))
 
+func generate_collisions():
+	var collisions: Array = GameController.get_analyzed_collisions()
+	var last_collision
+	for i in collisions.size():
+		
+		var new_player_collisions_group = Node2D.new()
+		new_player_collisions_group.name = "Player%d" % i
+		$Collisions.add_child(new_player_collisions_group)
+		new_player_collisions_group.visible = false
+		
+		for _collision in collisions[i]:
+			if _collision == last_collision:
+				continue
+			
+			var new_collision = collision.duplicate()
+			new_collision.color = colors[i]
+			new_collision.rect_position = _collision
+			new_player_collisions_group.add_child(new_collision)
+			new_collision.visible = true
+			last_collision = _collision
+		
+	
 
 func _on_Button_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("Analysis"))
+
+func _toggle_visible(node:Node2D):
+	node.visible = not node.visible
+
+func _on_ShowPath_pressed():
+	_toggle_visible($Paths.get_children()[selected_player_idx+1])
+
+func _on_ShowCollisions_pressed():
+	_toggle_visible($Collisions.get_children()[selected_player_idx+1])

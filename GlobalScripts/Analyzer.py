@@ -24,7 +24,7 @@ class Analyzer:
 	
 	
 	def analyze_collisions(self, world_x, world_y, wall_x, wall_y):
-		pass
+		self.collisions.append((world_x, world_y))
 
 	def analyze_heatmap(self, room_x, room_y):
 		room = (room_x, room_y)
@@ -49,6 +49,7 @@ class Analyzer:
 	def save(self, location):
 		if not self._time:
 			self._time = time.time() - self.start_time - self.paused_time
+		
 		with open(location, "wb") as output:
 			pickle.dump({
 				"movement": self.movement,

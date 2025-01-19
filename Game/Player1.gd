@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 export var move_speed: float = 100
 var running = false
@@ -13,23 +14,28 @@ onready var game_node = self.get_parent()
 
 onready var animation_tree = $AnimationTree
 onready var state_machine = animation_tree.get("parameters/playback")
+
 var velocity: Vector2
 
-onready var map = $"../MapGrid"
+signal player_moved
+signal toggle_map
 
 func _ready():
 	if not controls:
 		print("Player controls have not been set!")
 		set_physics_process(false)
 	player_controls = controls
+	
 	update_animation_parameters(Vector2(0, -1.1))
+	
 
 var tick_count = 0
 
 func _physics_process(_delta):
 	if GameController.paused:
-		velocity = Vector2.ZERO
-		pick_state()
+#		velocity = Vector2.ZERO
+#		pick_state()
+		update_animation_parameters(velocity)
 		return
 	
 	var input_direction = Vector2(
@@ -49,14 +55,16 @@ func _physics_process(_delta):
 			continue
 		var collider = collision.collider
 		if collider is TileMap and collider.name == "Walls":
-			game_node.player_collided(collision.collider, collision.position)
+#			game_node.player_collided(collision.collider, collision.position)
+			GameController.analyze_collisions(collision.position.x, collision.position.y, 0, 0, player_controls.player_index)
 	
-	map.update_player_position(map.world_to_map_position(self.position.x, self.position.y))
+	emit_signal("player_moved", position.x, position.y)
 	
 	tick_count +=1
 	if tick_count > 20:
 		tick_count = 0
 		GameController.analyze_movement(self.position.x, self.position.y, player_controls.player_index)
+		GameController.analyze_heatmap(self.position.x, self.position.y, player_controls.player_index)
 
 func _input(event):
 	if event.is_action_pressed(player_controls.toggle_run):
@@ -67,7 +75,7 @@ func _input(event):
 		
 		running = not running
 	elif event.is_action_pressed(player_controls.toggle_map):
-		map.toggle_map()
+		emit_signal("toggle_map")
 
 func update_animation_parameters(move_input: Vector2):
 	if move_input != Vector2.ZERO:
