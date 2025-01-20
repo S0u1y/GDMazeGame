@@ -10,7 +10,8 @@ var player_controls: PlayerControls
 var coins = 0
 var score = 0
 
-onready var game_node = self.get_parent()
+onready var hat = $Hat
+onready var clothes = $Clothes
 
 onready var animation_tree = $AnimationTree
 onready var state_machine = animation_tree.get("parameters/playback")
@@ -22,12 +23,40 @@ signal toggle_map
 
 func _ready():
 	if not controls:
-		print("Player controls have not been set!")
+		printerr("Player controls have not been set!")
 		set_physics_process(false)
 	player_controls = controls
 	
+	load_player_equips()
+	
 	update_animation_parameters(Vector2(0, -1.1))
 	
+
+func load_player_equips(player_index = player_controls.player_index):
+	var equips
+	if player_index == 0:
+		$Sprites.texture = load("res://assets/Robert/Robert_sprites.png")
+		equips = DataController.get_data()["p1_equips"] as PlayerEquips
+		if equips.hat:
+			hat.texture = equips.hat["robert_texture"]
+		else:
+			hat.texture = null
+		
+		if equips.clothes:
+			clothes.texture = equips.clothes["robert_texture"]
+		else:
+			clothes.texture = null
+	else:
+		$Sprites.texture = load("res://assets/Minnie/Minnie_sprites.png")
+		equips = DataController.get_data()["p2_equips"] as PlayerEquips
+		if equips.hat:
+			hat.texture = equips.hat["minnie_texture"]
+		else:
+			hat.texture = null
+		if equips.clothes:
+			clothes.texture = equips.clothes["minnie_texture"]
+		else:
+			clothes.texture = null
 
 var tick_count = 0
 
@@ -55,7 +84,6 @@ func _physics_process(_delta):
 			continue
 		var collider = collision.collider
 		if collider is TileMap and collider.name == "Walls":
-#			game_node.player_collided(collision.collider, collision.position)
 			GameController.analyze_collisions(collision.position.x, collision.position.y, 0, 0, player_controls.player_index)
 	
 	emit_signal("player_moved", position.x, position.y)

@@ -1,70 +1,51 @@
+#TODO: add coin counters
 extends Control
 
-var cosmetics = {
-}
+var player_data = DataController._save.get_data()
+var cosmetics: Dictionary = player_data.cosmetics
 
-var selected = null
-var selected_idx = 0
+var selected_player = 0
+var selected_item = null
+var last_cosmetic = null
+var selected_cosmetic = null
+var selected_type = null
 
 func _ready():
 	GameController.paused = true
 	$Panel/Player1.velocity = Vector2(0, 1.1)
 	
-	var directory = Directory.new()
-	if directory.open("res://assets/Robert/") == OK:
-		directory.list_dir_begin()
-		
-		var file_name = directory.get_next()
-		while file_name != "":
-			if file_name == "." or file_name == ".." or file_name.begins_with("__"):
-				file_name = directory.get_next()
-				continue
-			
-			if directory.current_is_dir():
-				cosmetics[file_name] = []
-				var new_button = Button.new()
-				new_button.name = file_name
-				new_button.text = file_name
-				$Panel/HBoxContainer.add_child(new_button)
-				new_button.connect("pressed", self, "_on_cosmetics_picked", [new_button.text])
-				
-				var cosmetics_dir = Directory.new()
-				if cosmetics_dir.open(directory.get_current_dir() + "/" + file_name) == OK:
-					cosmetics_dir.list_dir_begin()
-					
-					var cosmetic_file_name = cosmetics_dir.get_next()
-					while cosmetic_file_name != "":
-						if cosmetic_file_name.ends_with(".png") or cosmetic_file_name.ends_with(".jpg"):
-							cosmetics[file_name].append(load(cosmetics_dir.get_current_dir()+"/"+cosmetic_file_name))
-						cosmetic_file_name = cosmetics_dir.get_next()
-					
-				
-			file_name = directory.get_next()
-		
+	for cosmetic in cosmetics:
+		var new_button = Button.new()
+		new_button.name = cosmetic
+		new_button.text = cosmetic
+		$"%CosmeticsList".add_child(new_button)
+		new_button.connect("pressed", self, "_on_cosmetics_picked", [new_button.text])
+	
+	$Panel/PlayerSelection/Player1.group.connect("pressed", self, "_on_player_changed")
 	
 
-#disable preview of all other cosmetics and show the picked one
-func _on_cosmetics_picked(cosmetic_type:String):
-	selected_idx = 0
-	selected = cosmetic_type
+func _on_cosmetics_picked(cosmetic_name:String):
+	if cosmetic_name == selected_item:
+		return
 	
-	if not $Panel/HBoxContainer2.visible: $Panel/HBoxContainer2.visible = true
+	selected_item = cosmetic_name
+	last_cosmetic = selected_cosmetic
+	selected_cosmetic = cosmetics[cosmetic_name]
+	selected_type = selected_cosmetic.type as String
 	
-	for _cosmetic_type in cosmetics.keys():
-		if _cosmetic_type != cosmetic_type:
-			var cosmetic_node = $Panel/Player1.get_node(_cosmetic_type)
-			if cosmetic_node:
-				cosmetic_node.texture = null
-		else:
-			var cosmetic_node = $Panel/Player1.get_node(cosmetic_type)
-			if cosmetic_node:
-				cosmetic_node.texture = cosmetics[cosmetic_type][selected_idx]
-			
+	if selected_cosmetic.owned:
+		$Panel/VBoxContainer/PurchaseContainer.visible = false
+		$Panel/VBoxContainer/Owned.visible = true
+		$Panel/VBoxContainer/Owned/Equipped.pressed = player_data["p"+String(selected_player+1)+"_equips"][selected_cosmetic.type] == selected_cosmetic
 		
-	$Panel/HBoxContainer2/Count.text = String(selected_idx+1) + "/" + String(cosmetics[selected].size())
+	else:
+		$Panel/VBoxContainer/PurchaseContainer.visible = true
+		$Panel/VBoxContainer/Owned.visible = false
+		
+		$Panel/VBoxContainer/PurchaseContainer/CostInfo/Cost.text = cosmetic_name + ": " + String(selected_cosmetic.cost)
 	
-
-
+	$Panel/Player1[selected_type].texture = selected_cosmetic[lower_first_letter(player_data.get_property_by_player_idx(selected_player+1, "character"))+"_texture"]
+	
 
 func _exit_tree():
 	GameController.paused = false
@@ -72,25 +53,35 @@ func _exit_tree():
 func _on_Back_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("Main Menu"))
 
+func _on_PurchaseBtn_pressed():
+	if player_data.coins >= selected_cosmetic.cost:
+		player_data.coins -= selected_cosmetic.cost
+		selected_cosmetic.owned = true
+		$Panel/VBoxContainer/PurchaseContainer.visible = false
+		$Panel/VBoxContainer/Owned.visible = true
+		$Panel/VBoxContainer/Owned/Equipped.pressed = player_data.get_property_by_player_idx(selected_player+1, "equips")[selected_cosmetic.type] == selected_cosmetic
+	else:
+#		TODO: Finish no money window
+		print("cannot purchase")
 
-func _on_Previous_pressed():
-	selected_idx += -1
-	if selected_idx < 0: selected_idx = 0
-	
-	var cosmetic_node = $Panel/Player1.get_node(selected)
-	if cosmetic_node:
-		cosmetic_node.texture = cosmetics[selected][selected_idx]
-	
-	$Panel/HBoxContainer2/Count.text = String(selected_idx+1) + "/" + String(cosmetics[selected].size())
-	
 
-func _on_Next_pressed():
-	selected_idx += 1
-	if selected_idx > cosmetics[selected].size()-1: selected_idx = cosmetics[selected].size()-1
+func _on_Equipped_pressed():
+	player_data.get_property_by_player_idx(selected_player+1, "equips")[selected_type] = selected_cosmetic
+
+func _on_player_changed(button):
+	if button.name == "Player2":
+		selected_player=1
+		$Panel/Player1/Sprites.texture = load("res://assets/Minnie/Minnie_sprites.png")
+	else:
+		selected_player=0
+		$Panel/Player1/Sprites.texture = load("res://assets/Robert/Robert_sprites.png")
 	
-	var cosmetic_node = $Panel/Player1.get_node(selected)
-	if cosmetic_node:
-		cosmetic_node.texture = cosmetics[selected][selected_idx]
-	
-	$Panel/HBoxContainer2/Count.text = String(selected_idx+1) + "/" + String(cosmetics[selected].size())
-	
+	$Panel/Player1.load_player_equips(selected_player)
+	$Panel/VBoxContainer/PurchaseContainer.visible = false
+	$Panel/VBoxContainer/Owned.visible = false
+
+func capitalize_first_letter(string:String):
+	return string[0].to_upper() + string.substr(1,-1)
+
+func lower_first_letter(string:String):
+	return string[0].to_lower() + string.substr(1,-1)

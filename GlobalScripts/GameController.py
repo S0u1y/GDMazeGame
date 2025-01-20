@@ -1,4 +1,4 @@
-from godot import exposed, export, Vector2, TileMap, Node2D, Array, Dictionary, GDString
+from godot import exposed, export, Vector2, TileMap, Node2D, Array, Dictionary, GDString, ResourceLoader, ResourceSaver, Resource
 from godot.bindings import *
 
 import os
@@ -20,7 +20,14 @@ USER_LOCATION = str(ProjectSettings.globalize_path("user://"))
 # TODO: set main game settings in here
 @exposed
 class GameController(Node):
-	data = Dictionary({"coins":0})
+#	data = Dictionary({
+#			"coins": 0,
+#			"accessories": {
+#				"Miner Helmet": False,
+#				"Crown": False,
+#				"Shirt": False,
+#			}
+#		})
 	
 	_maze: Maze = None
 	chosen_algorithm = export(str, "TruePrimsMST") 
@@ -47,15 +54,15 @@ class GameController(Node):
 		
 		self.make_folder()
 		self.make_folder("analysis")
-		self.make_folder("data")
-		try:
-			with open(f"{self.saves_folder}/data/data", "rb") as _input:
-				loaded = pickle.load(_input)
-				self.data = self.to_gd(loaded)
-		except FileNotFoundError:
-			pass
-		except EOFError:
-			pass
+#		self.make_folder("data")
+#		try:
+#			with open(f"{self.saves_folder}/data/data", "rb") as _input:
+#				loaded = pickle.load(_input)
+#				self.data = self.to_gd(loaded)
+#		except FileNotFoundError:
+#			pass
+#		except EOFError:
+#			pass
 		
 	
 #	TODO: handle permission error and other errors but skip fileExists err.
@@ -191,6 +198,11 @@ class GameController(Node):
 			return py_var
 		return var
 	
+	def load_data(self):
+		pass
+	def save_data(self):
+		pass
+	
 	def save_game(self):
 		current_time = datetime.datetime.now()
 		tail = f"{current_time.year}-{current_time.month}-{current_time.day} {current_time.hour}-{current_time.minute}-{current_time.second}"
@@ -210,8 +222,8 @@ class GameController(Node):
 				"game_type": str(self.game_type),
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
-		with open(f"{self.saves_folder}/data/data", "wb") as output:
-			pickle.dump(self.from_gd(self.data), output, pickle.HIGHEST_PROTOCOL)
+#		with open(f"{self.saves_folder}/data/data", "wb") as output:
+#			pickle.dump(self.from_gd(self.data), output, pickle.HIGHEST_PROTOCOL)
 	
 	def load_game(self, game_folder):
 		if self.loaded_maze_location in (None, ""):

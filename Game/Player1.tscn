@@ -107,7 +107,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -148,7 +148,7 @@ tracks/0/keys = {
 "values": [ 8, 9 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -189,7 +189,7 @@ tracks/0/keys = {
 "values": [ 4, 5 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -230,7 +230,7 @@ tracks/0/keys = {
 "values": [ 12, 13 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -271,7 +271,7 @@ tracks/0/keys = {
 "values": [ 2, 0, 3, 0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -312,7 +312,7 @@ tracks/0/keys = {
 "values": [ 10, 8, 11, 8 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -353,7 +353,7 @@ tracks/0/keys = {
 "values": [ 6, 4, 7, 4 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -394,7 +394,7 @@ tracks/0/keys = {
 "values": [ 14, 12, 15, 12 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hats:frame")
+tracks/1/path = NodePath("Hat:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -452,7 +452,7 @@ anims/walk_left = SubResource( 9 )
 anims/walk_right = SubResource( 10 )
 anims/walk_up = SubResource( 11 )
 
-[node name="Hats" type="Sprite" parent="."]
+[node name="Hat" type="Sprite" parent="."]
 hframes = 4
 vframes = 4
 frame = 5
