@@ -1,5 +1,9 @@
-from godot import exposed, export, Array, Node2D, TileMap, NodePath, Color
+from godot import exposed, export, Array, Node2D, TileMap, NodePath, Color, ResourceLoader
 from godot import *
+
+import random
+
+gold_coin = ResourceLoader.load("res://PickupableItems/GoldCoin.tscn")
 
 GameControllerNode = None
 
@@ -25,6 +29,8 @@ class Game(Node2D):
 		
 		self.walls_node = self.get_node("Walls")
 		self.floor_node = self.get_node("Floor")
+		
+		self.free_cells = []
 		
 		self.generate_maze()
 #		TODO: 	generate coins randomly on map
@@ -52,6 +58,7 @@ class Game(Node2D):
 			for _y in range(self.room_height):
 				for _x in range(self.room_width):
 					self.floor_node.set_cell(_x + room_x,_y + room_y,0,Vector2(0,0))
+					self.free_cells.append(Array([_x + room_x,_y + room_y]))
 			
 			if not has_right_passage:
 				self.walls_node.make_right_wall(room_x+self.room_width-1, room_y+1, self.room_height-1)
@@ -109,3 +116,18 @@ class Game(Node2D):
 			last_node = nodes[-1]
 			self.get_node("Player2").position = Vector2((last_node[0] * self.room_width * 16) + self.room_width*8, (last_node[1] * self.room_height * 16) + self.room_height*8)
 		
+#		Spawn coins
+		coins_amount = int(len(self.free_cells) * (random.randint(5, 7)/1000))
+		for i in range(coins_amount):
+			new_coin = gold_coin.instance()
+			self.get_node("Pickupables").add_child(new_coin)
+			
+			picked_cell_idx = random.randint(0, len(self.free_cells)-1)
+			picked_pos = self.free_cells.pop(picked_cell_idx)
+			new_coin.position = self.floor_node.map_to_world(Vector2(picked_pos[0], picked_pos[1])) + Vector2(random.randint(4,14),random.randint(4,14))
+	
+	def remove_free_cell(self, arr):
+		try:
+			self.free_cells.remove(arr)
+		except:
+			pass

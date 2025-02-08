@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://MainMenuScreens/Settings.gd" type="Script" id=2]
+[ext_resource path="res://assets/Themes/MainTheme.tres" type="Theme" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 125
@@ -14,6 +15,7 @@ font_data = ExtResource( 1 )
 [node name="Settings" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -57,10 +59,10 @@ margin_bottom = 305.0
 size_flags_vertical = 3
 
 [node name="Start Game" type="Button" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer"]
-margin_left = 246.0
-margin_top = 130.0
-margin_right = 404.0
-margin_bottom = 174.0
+margin_left = 247.0
+margin_top = 128.0
+margin_right = 403.0
+margin_bottom = 176.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )

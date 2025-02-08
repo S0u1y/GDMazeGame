@@ -1,11 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Game/Walls.gd" type="Script" id=1]
 [ext_resource path="res://Game/Player1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/MapGrid.tscn" type="PackedScene" id=3]
 [ext_resource path="res://PickupableItems/Treasure.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Game/PauseMenu.tscn" type="PackedScene" id=5]
-[ext_resource path="res://PickupableItems/GoldCoin.tscn" type="PackedScene" id=6]
 [ext_resource path="res://resources/WallsTileMap.tres" type="TileSet" id=7]
 [ext_resource path="res://Game/Game.py" type="Script" id=8]
 [ext_resource path="res://assets/WallSet.png" type="Texture" id=10]
@@ -26,7 +25,7 @@
 0/shapes = [  ]
 0/z_index = -1
 
-[node name="GameContainer" type="Node"]
+[node name="GameContainer" type="Node2D"]
 
 [node name="Game" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -65,4 +64,6 @@ visible = false
 [node name="Treasure" parent="Game" instance=ExtResource( 4 )]
 position = Vector2( 58, 28 )
 
-[node name="Coin" parent="Game" instance=ExtResource( 6 )]
+[node name="Decorations" type="Node" parent="Game"]
+
+[node name="Pickupables" type="Node" parent="Game"]

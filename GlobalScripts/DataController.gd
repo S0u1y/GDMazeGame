@@ -21,3 +21,11 @@ func save_data():
 
 func get_data() -> PlayerData:
 	return _save.get_data()
+
+#TODO remove this
+func _input(event):
+	if event is InputEventMouseButton:
+		if Input.is_mouse_button_pressed(BUTTON_LEFT):
+			var root_node = get_tree().root.get_children()[-1]
+			if root_node is CanvasItem:
+				print(root_node.get_global_mouse_position())

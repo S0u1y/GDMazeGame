@@ -117,7 +117,6 @@ func switch_camera():
 	tile_map.get_node("Camera2D").current = showing_map
 	player_rect.get_node("Camera2D").current = not showing_map
 
-#TODO: Make function to show entire map
 func toggle_map():
 #	var n_cols = game_node.n_cols
 #	var n_rows = game_node.n_rows

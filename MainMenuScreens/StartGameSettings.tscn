@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://MainMenuScreens/StartGameSettings.gd" type="Script" id=2]
 [ext_resource path="res://DifficultyContainer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://resources/difficulties/Medium.tres" type="Resource" id=4]
 [ext_resource path="res://resources/difficulties/Hard.tres" type="Resource" id=5]
+[ext_resource path="res://assets/Themes/MainTheme.tres" type="Theme" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 125
@@ -13,6 +14,7 @@ font_data = ExtResource( 1 )
 [node name="Settings" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 6 )
 script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -51,17 +53,23 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Easy" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
-margin_left = 101.0
-margin_right = 113.0
+margin_left = 21.0
+margin_top = 102.0
+margin_right = 192.0
+margin_bottom = 203.0
 
 [node name="Medium" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
-margin_left = 319.0
-margin_right = 331.0
+margin_left = 239.0
+margin_top = 102.0
+margin_right = 410.0
+margin_bottom = 203.0
 difficulty = ExtResource( 4 )
 
 [node name="Hard" parent="Panel/VBoxContainer/ScrollContainer/Difficulties" instance=ExtResource( 3 )]
-margin_left = 537.0
-margin_right = 549.0
+margin_left = 457.0
+margin_top = 102.0
+margin_right = 628.0
+margin_bottom = 203.0
 difficulty = ExtResource( 5 )
 
 [node name="Back" type="Button" parent="Panel"]

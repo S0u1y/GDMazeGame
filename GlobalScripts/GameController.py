@@ -198,11 +198,6 @@ class GameController(Node):
 			return py_var
 		return var
 	
-	def load_data(self):
-		pass
-	def save_data(self):
-		pass
-	
 	def save_game(self):
 		current_time = datetime.datetime.now()
 		tail = f"{current_time.year}-{current_time.month}-{current_time.day} {current_time.hour}-{current_time.minute}-{current_time.second}"
