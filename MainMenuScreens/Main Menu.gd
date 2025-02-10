@@ -1,8 +1,5 @@
 extends Control
 
-func _ready():
-	pass
-
 func _on_Start_Game_button_down():
 	GameController.game_type = "Single"
 	get_tree().change_scene_to(SceneSwapper.get_scene("StartGameSettings"))

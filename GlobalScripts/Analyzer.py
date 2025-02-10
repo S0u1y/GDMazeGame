@@ -17,15 +17,17 @@ class Analyzer:
 		
 		self.heatmap = {}
 		self.last_room = None
-
+		
+	
 	def analyze_movement(self, x, y):
 		if self.last_move != (x, y):
 			self.movement.append((x, y))
-	
+		
 	
 	def analyze_collisions(self, world_x, world_y, wall_x, wall_y):
 		self.collisions.append((world_x, world_y))
-
+		
+	
 	def analyze_heatmap(self, room_x, room_y):
 		room = (room_x, room_y)
 		if self.last_room != room:
@@ -33,6 +35,8 @@ class Analyzer:
 				self.heatmap[room] += 1
 			else:
 				self.heatmap[room] = 1
+			
+		
 	
 	def toggle_pause_timer(self):
 		self.paused = not self.paused
@@ -40,6 +44,7 @@ class Analyzer:
 			self.pause_start_time = time.time()
 		else:
 			self.paused_time += time.time() - self.pause_start_time
+		
 	
 	def reset_timer(self):
 		self.paused = False
@@ -58,6 +63,7 @@ class Analyzer:
 				"time": self._time
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
+	
 	def load(self, filename):
 		try:
 			with open(filename, "rb") as _input:
@@ -74,3 +80,5 @@ class Analyzer:
 				self.load(filename[:-1])
 				return
 			print("There was an error reading the file:", e)
+		
+	

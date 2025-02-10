@@ -64,27 +64,27 @@ class CompletelyRandomGenerator(MazeAlgorithm):
 	def generate(self, maze):
 		if maze.G is None:
 			maze.G = nx.empty_graph([(y, x) for x in range(maze.width) for y in range(maze.height)])
-
+		
 		# randomly assign edges in graph
 		for node in G.nodes():
 			choice = random.choice([[-1, 0], [1, 0], [0, 1], [0, -1], [0, 0]])
-
+			
 			if node[0] == 0 and choice[0] == -1:
 				choice[0] = random.randint(0, 1)
 			elif node[0] == 10 and choice[0] == 1:
 				choice[0] = random.randint(-1, 0)
-
+			
 			if node[1] == 0 and choice[1] == -1:
 				choice[1] = random.randint(0, 1)
 			elif node[1] == 20 and choice[1] == 1:
 				choice[1] = random.randint(-1, 0)
-
+			
 			if (choice[0], choice[1]) in ((1, 1), (-1, -1), (-1, 1), (1, -1)):
 				if random.randint(0, 1) > 0:
 					choice[0] = 0
 				else:
 					choice[1] = 0
-
+			
 			if (0, 0) != (choice[0], choice[1]):
 				G.add_edge(node, (node[0] + choice[0], node[1] + choice[1]))
 
