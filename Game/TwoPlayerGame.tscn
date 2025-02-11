@@ -89,6 +89,10 @@ update_scale = false
 [node name="MapGrid" parent="HBoxContainer/ViewportContainer/Viewport/Game" instance=ExtResource( 5 )]
 player = NodePath("../Player1")
 
+[node name="Decorations" type="Node" parent="HBoxContainer/ViewportContainer/Viewport/Game"]
+
+[node name="Pickupables" type="Node" parent="HBoxContainer/ViewportContainer/Viewport/Game"]
+
 [node name="ViewportContainer2" type="ViewportContainer" parent="HBoxContainer"]
 margin_left = 516.0
 margin_right = 1028.0
