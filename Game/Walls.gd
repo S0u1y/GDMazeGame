@@ -1,8 +1,13 @@
 extends TileMap
 
+var game_node = null
+
+func _ready():
+	if get_tree().root.get_children()[-1].name != "AnalysisStage":
+		game_node = get_node("Game")
+
 var torch = preload("res://Decorations/Torch.tscn")
 
-var walls_cells = []
 
 func make_room(x,y,width,height):
 	make_top_wall(x,y,width)
@@ -12,7 +17,8 @@ func make_room(x,y,width,height):
 		
 func make_wall(x,y,tile_coord):
 	GameController.make_tile_cell(self, x, y, tile_coord)
-	$"%Game".remove_free_cell([x,y])
+	if game_node:
+		game_node.remove_free_cell([x,y])
 
 # different types of top walls
 var top_walls = [
@@ -51,6 +57,9 @@ func _generate_top_walls(x,y, width):
 	for wall_i in width:
 		var pick_wall = weighted_top_walls.pick_random()
 		make_wall(x+wall_i,y,pick_wall)
+		
+		if not game_node:
+			continue
 		
 		if [0, width - 1].find(wall_i) == - 1 and generated_top_wall_cnt % 3 == 0 and pick_wall == top_walls[0]:
 			var world_pos = map_to_world(Vector2(x+wall_i,y))
@@ -107,4 +116,5 @@ func make_left_bottom_wall(x,y,width):
 func make_bottom_aligned_wall(x,y,width):
 	for wall_i in width:
 		set_cell(x+wall_i, y, 0, false, true, true, Vector2(3,2))
-		$"%Game".remove_free_cell([x,y])
+		if game_node:
+			game_node.remove_free_cell([x,y])

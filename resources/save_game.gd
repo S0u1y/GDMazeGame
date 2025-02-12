@@ -7,7 +7,7 @@ export var player_data: Resource = PlayerData.new()
 
 func save_data():
 	if not ResourceLoader.exists(get_save_path()):
-		Directory.new().open("user://saves/data")
+		Directory.new().make_dir("user://saves/data")
 	ResourceSaver.save(get_save_path(), self)
 
 static func save_exists():
