@@ -1,6 +1,12 @@
 #TODO: add coin counters
 extends Control
 
+onready var purchase_container = $"%PurchaseContainer"
+onready var cost_label = $"%Cost"
+
+onready var owned_container = $"%OwnedContainer"
+onready var equipped_btn = $"%Equipped"
+
 var player_data = DataController._save.get_data()
 var cosmetics: Dictionary = player_data.cosmetics
 
@@ -33,16 +39,18 @@ func _on_cosmetics_picked(cosmetic_name:String):
 	selected_cosmetic = cosmetics[cosmetic_name]
 	selected_type = selected_cosmetic.type as String
 	
+	$Panel/CosmeticInfoContainer.visible = true
+	
 	if selected_cosmetic.owned:
-		$Panel/VBoxContainer/PurchaseContainer.visible = false
-		$Panel/VBoxContainer/Owned.visible = true
-		$Panel/VBoxContainer/Owned/Equipped.pressed = player_data["p"+String(selected_player+1)+"_equips"][selected_cosmetic.type] == selected_cosmetic
+		purchase_container.visible = false
+		owned_container.visible = true
+		owned_container.get_node("Equipped").pressed = player_data["p"+String(selected_player+1)+"_equips"][selected_cosmetic.type] == selected_cosmetic
 		
 	else:
-		$Panel/VBoxContainer/PurchaseContainer.visible = true
-		$Panel/VBoxContainer/Owned.visible = false
+		purchase_container.visible = true
+		owned_container.visible = false
 		
-		$Panel/VBoxContainer/PurchaseContainer/CostInfo/Cost.text = cosmetic_name + ": " + String(selected_cosmetic.cost)
+		cost_label.text = cosmetic_name + ": " + String(selected_cosmetic.cost)
 	
 	$Panel/Player1[selected_type].texture = selected_cosmetic[lower_first_letter(player_data.get_property_by_player_idx(selected_player+1, "character"))+"_texture"]
 	
@@ -57,9 +65,9 @@ func _on_PurchaseBtn_pressed():
 	if player_data.coins >= selected_cosmetic.cost:
 		player_data.coins -= selected_cosmetic.cost
 		selected_cosmetic.owned = true
-		$Panel/VBoxContainer/PurchaseContainer.visible = false
-		$Panel/VBoxContainer/Owned.visible = true
-		$Panel/VBoxContainer/Owned/Equipped.pressed = player_data.get_property_by_player_idx(selected_player+1, "equips")[selected_cosmetic.type] == selected_cosmetic
+		purchase_container.visible = false
+		owned_container.visible = true
+		owned_container.get_node("Equipped").pressed = player_data.get_property_by_player_idx(selected_player+1, "equips")[selected_cosmetic.type] == selected_cosmetic
 	else:
 #		TODO: Finish no money window
 		print("cannot purchase")
@@ -77,8 +85,8 @@ func _on_player_changed(button):
 		$Panel/Player1/Sprites.texture = load("res://assets/Robert/Robert_sprites.png")
 	
 	$Panel/Player1.load_player_equips(selected_player)
-	$Panel/VBoxContainer/PurchaseContainer.visible = false
-	$Panel/VBoxContainer/Owned.visible = false
+	purchase_container.visible = false
+	owned_container.visible = false
 
 func capitalize_first_letter(string:String):
 	return string[0].to_upper() + string.substr(1,-1)

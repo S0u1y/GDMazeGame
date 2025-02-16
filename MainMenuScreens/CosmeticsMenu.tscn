@@ -46,7 +46,8 @@ size_flags_vertical = 3
 theme = SubResource( 1 )
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="CosmeticInfoContainer" type="PanelContainer" parent="Panel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -56,34 +57,35 @@ margin_top = 100.0
 margin_right = 80.0
 margin_bottom = 158.0
 rect_pivot_offset = Vector2( 80, 15 )
-alignment = 1
 
-[node name="PurchaseContainer" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="PurchaseContainer" type="VBoxContainer" parent="Panel/CosmeticInfoContainer"]
+unique_name_in_owner = true
 visible = false
-margin_right = 160.0
-margin_bottom = 58.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 153.0
+margin_bottom = 66.0
 
-[node name="CostInfo" type="HBoxContainer" parent="Panel/VBoxContainer/PurchaseContainer"]
-margin_right = 160.0
-margin_bottom = 34.0
+[node name="CostInfo" type="HBoxContainer" parent="Panel/CosmeticInfoContainer/PurchaseContainer"]
+margin_right = 146.0
+margin_bottom = 31.0
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Cost" type="Label" parent="Panel/VBoxContainer/PurchaseContainer/CostInfo"]
-margin_left = 34.0
-margin_top = 10.0
-margin_right = 105.0
-margin_bottom = 24.0
+[node name="Cost" type="Label" parent="Panel/CosmeticInfoContainer/PurchaseContainer/CostInfo"]
+unique_name_in_owner = true
+margin_left = 27.0
+margin_top = 8.0
+margin_right = 98.0
+margin_bottom = 22.0
 rect_pivot_offset = Vector2( 12, 7 )
 text = "Crown: 150"
 
-[node name="Coin" type="TextureRect" parent="Panel/VBoxContainer/PurchaseContainer/CostInfo"]
-margin_left = 109.0
-margin_top = 9.0
-margin_right = 125.0
-margin_bottom = 25.0
+[node name="Coin" type="TextureRect" parent="Panel/CosmeticInfoContainer/PurchaseContainer/CostInfo"]
+margin_left = 102.0
+margin_top = 7.0
+margin_right = 118.0
+margin_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_pivot_offset = Vector2( 8, 8 )
@@ -91,19 +93,22 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource( 4 )
 
-[node name="PurchaseBtn" type="Button" parent="Panel/VBoxContainer/PurchaseContainer"]
-margin_top = 38.0
-margin_right = 160.0
-margin_bottom = 58.0
+[node name="PurchaseBtn" type="Button" parent="Panel/CosmeticInfoContainer/PurchaseContainer"]
+margin_top = 35.0
+margin_right = 146.0
+margin_bottom = 59.0
 text = "Purchase"
 
-[node name="Owned" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="OwnedContainer" type="VBoxContainer" parent="Panel/CosmeticInfoContainer"]
+unique_name_in_owner = true
 visible = false
-margin_right = 160.0
-margin_bottom = 57.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 153.0
+margin_bottom = 66.0
 
-[node name="Owned" type="Label" parent="Panel/VBoxContainer/Owned"]
-margin_right = 160.0
+[node name="Owned" type="Label" parent="Panel/CosmeticInfoContainer/OwnedContainer"]
+margin_right = 146.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -112,11 +117,12 @@ text = "Owned"
 align = 1
 valign = 1
 
-[node name="Equipped" type="CheckBox" parent="Panel/VBoxContainer/Owned"]
-margin_left = 48.0
+[node name="Equipped" type="CheckBox" parent="Panel/CosmeticInfoContainer/OwnedContainer"]
+unique_name_in_owner = true
+margin_left = 40.0
 margin_top = 33.0
-margin_right = 111.0
-margin_bottom = 57.0
+margin_right = 105.0
+margin_bottom = 59.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Equip"
@@ -165,6 +171,6 @@ margin_left = -63.0
 margin_bottom = 30.0
 text = "Back"
 
-[connection signal="pressed" from="Panel/VBoxContainer/PurchaseContainer/PurchaseBtn" to="." method="_on_PurchaseBtn_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Owned/Equipped" to="." method="_on_Equipped_pressed"]
+[connection signal="pressed" from="Panel/CosmeticInfoContainer/PurchaseContainer/PurchaseBtn" to="." method="_on_PurchaseBtn_pressed"]
+[connection signal="pressed" from="Panel/CosmeticInfoContainer/OwnedContainer/Equipped" to="." method="_on_Equipped_pressed"]
 [connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
