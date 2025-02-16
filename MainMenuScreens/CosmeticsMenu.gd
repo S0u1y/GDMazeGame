@@ -62,6 +62,9 @@ func _on_Back_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("Main Menu"))
 
 func _on_PurchaseBtn_pressed():
+	if not selected_cosmetic:
+		return
+	
 	if player_data.coins >= selected_cosmetic.cost:
 		player_data.coins -= selected_cosmetic.cost
 		selected_cosmetic.owned = true
@@ -85,6 +88,8 @@ func _on_player_changed(button):
 		$Panel/Player1/Sprites.texture = load("res://assets/Robert/Robert_sprites.png")
 	
 	$Panel/Player1.load_player_equips(selected_player)
+	
+	$Panel/CosmeticInfoContainer.visible = false
 	purchase_container.visible = false
 	owned_container.visible = false
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MainMenuScreens/CosmeticsMenu.gd" type="Script" id=1]
 [ext_resource path="res://Game/Player1.tscn" type="PackedScene" id=2]
@@ -6,8 +6,16 @@
 [ext_resource path="res://assets/Gold_coin.png" type="Texture" id=4]
 [ext_resource path="res://MainMenuScreens/player_checkbox_group.tres" type="ButtonGroup" id=5]
 [ext_resource path="res://assets/Themes/MainTheme.tres" type="Theme" id=6]
+[ext_resource path="res://assets/Themes/PanelContainer.tres" type="StyleBox" id=7]
 
 [sub_resource type="Theme" id=1]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.560784, 0.431373, 0.180392, 1 )
+border_width_bottom = 1
+border_color = Color( 0.51, 0.3944, 0.1632, 1 )
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="DynamicFont" id=2]
 size = 24
@@ -57,34 +65,35 @@ margin_top = 100.0
 margin_right = 80.0
 margin_bottom = 158.0
 rect_pivot_offset = Vector2( 80, 15 )
+custom_styles/panel = ExtResource( 7 )
 
 [node name="PurchaseContainer" type="VBoxContainer" parent="Panel/CosmeticInfoContainer"]
 unique_name_in_owner = true
-visible = false
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 153.0
-margin_bottom = 66.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 156.0
+margin_bottom = 54.0
+size_flags_horizontal = 5
 
 [node name="CostInfo" type="HBoxContainer" parent="Panel/CosmeticInfoContainer/PurchaseContainer"]
-margin_right = 146.0
+margin_right = 152.0
 margin_bottom = 31.0
 size_flags_vertical = 3
 alignment = 1
 
 [node name="Cost" type="Label" parent="Panel/CosmeticInfoContainer/PurchaseContainer/CostInfo"]
 unique_name_in_owner = true
-margin_left = 27.0
+margin_left = 30.0
 margin_top = 8.0
-margin_right = 98.0
+margin_right = 101.0
 margin_bottom = 22.0
 rect_pivot_offset = Vector2( 12, 7 )
 text = "Crown: 150"
 
 [node name="Coin" type="TextureRect" parent="Panel/CosmeticInfoContainer/PurchaseContainer/CostInfo"]
-margin_left = 102.0
+margin_left = 105.0
 margin_top = 7.0
-margin_right = 118.0
+margin_right = 121.0
 margin_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -95,8 +104,12 @@ texture = ExtResource( 4 )
 
 [node name="PurchaseBtn" type="Button" parent="Panel/CosmeticInfoContainer/PurchaseContainer"]
 margin_top = 35.0
-margin_right = 146.0
-margin_bottom = 59.0
+margin_right = 152.0
+margin_bottom = 50.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
 text = "Purchase"
 
 [node name="OwnedContainer" type="VBoxContainer" parent="Panel/CosmeticInfoContainer"]

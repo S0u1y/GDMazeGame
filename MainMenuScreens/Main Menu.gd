@@ -16,3 +16,6 @@ func _on_Settings_pressed():
 
 func _on_CosmeticsMenu_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("CosmeticsMenu"))
+
+func _on_Quit_pressed():
+	get_tree().quit() 

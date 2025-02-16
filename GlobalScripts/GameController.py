@@ -14,20 +14,11 @@ from GlobalScripts.Analyzer import Analyzer
 
 USER_LOCATION = str(ProjectSettings.globalize_path("user://"))
 #AnalysisStage:
-# TODO: add support for heatmap?
-# TODO: add handling for more than 2 player colors?
+# TODO: add support for heatmap
 
 # TODO: set main game settings in here
 @exposed
 class GameController(Node):
-#	data = Dictionary({
-#			"coins": 0,
-#			"accessories": {
-#				"Miner Helmet": False,
-#				"Crown": False,
-#				"Shirt": False,
-#			}
-#		})
 	
 	_maze: Maze = None
 	chosen_algorithm = export(str, "TruePrimsMST") 
@@ -91,7 +82,7 @@ class GameController(Node):
 		nx.add_path(self._maze.G, ((self.n_cols-1, self.n_rows-1), (self.n_cols-1, self.n_rows)))
 	
 	def get_maze_algorithms(self):
-		return maze_algorithms.get_keys()
+		return self.to_gd(maze_algorithms.get_keys())
 	
 	def get_analyzed_movement(self):
 		movement = [[] for x in self._analyzers]

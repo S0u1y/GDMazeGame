@@ -4,7 +4,7 @@ var game_node = null
 
 func _ready():
 	if get_tree().root.get_children()[-1].name != "AnalysisStage":
-		game_node = get_node("Game")
+		game_node = get_node("%Game")
 
 var torch = preload("res://Decorations/Torch.tscn")
 

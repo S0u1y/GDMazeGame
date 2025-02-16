@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=12 format=2]
 
 [ext_resource path="res://assets/Background_pattern.png" type="Texture" id=1]
 [ext_resource path="res://assets/Button.png" type="Texture" id=2]
@@ -20,6 +20,21 @@ margin_right = 5.0
 margin_top = 5.0
 margin_bottom = 5.0
 
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.67451, 0.431373, 0.192157, 1 )
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
 [sub_resource type="StyleBoxTexture" id=4]
 texture = ExtResource( 1 )
 region_rect = Rect2( -6.15298, -0.297114, 5.73578, 33.6977 )
@@ -37,4 +52,9 @@ Button/styles/pressed = SubResource( 6 )
 CheckBox/styles/hover = SubResource( 5 )
 CheckBox/styles/hover_pressed = SubResource( 5 )
 CheckBox/styles/pressed = SubResource( 5 )
+ItemList/styles/bg = SubResource( 7 )
+OptionButton/styles/focus = SubResource( 8 )
+OptionButton/styles/hover = SubResource( 9 )
+OptionButton/styles/normal = SubResource( 10 )
+OptionButton/styles/pressed = SubResource( 11 )
 Panel/styles/panel = SubResource( 4 )

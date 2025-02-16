@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://DifficultyContainer.gd" type="Script" id=2]
 [ext_resource path="res://resources/difficulties/Easy.tres" type="Resource" id=3]
-[ext_resource path="res://assets/Themes/DifficultyContainer.tres" type="StyleBox" id=4]
+[ext_resource path="res://assets/Themes/PanelContainer.tres" type="StyleBox" id=4]
 
 [sub_resource type="DynamicFont" id=2]
 size = 42

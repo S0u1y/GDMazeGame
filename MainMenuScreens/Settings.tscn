@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://MainMenuScreens/Settings.gd" type="Script" id=2]
@@ -9,8 +9,12 @@ size = 125
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 32
+size = 18
 font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_bottom = 4
 
 [node name="Settings" type="Control"]
 anchor_right = 1.0
@@ -53,21 +57,32 @@ margin_bottom = 305.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="MarginContainer" type="PanelContainer" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_right = 650.0
-margin_bottom = 305.0
-size_flags_vertical = 3
+margin_bottom = 66.0
 
-[node name="Start Game" type="Button" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer"]
-margin_left = 247.0
-margin_top = 128.0
-margin_right = 403.0
-margin_bottom = 176.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 643.0
+margin_bottom = 59.0
+custom_constants/separation = 12
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 636.0
+margin_bottom = 26.0
 custom_fonts/font = SubResource( 2 )
-text = "WIP PAGE"
-flat = true
+custom_styles/normal = SubResource( 3 )
+text = "Maze algorithm"
+
+[node name="AlgorithmSelect" type="OptionButton" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 38.0
+margin_right = 120.0
+margin_bottom = 52.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Select Algorithm"
 
 [node name="Back" type="Button" parent="Panel"]
 anchor_left = 1.0
@@ -76,4 +91,5 @@ margin_left = -63.0
 margin_bottom = 30.0
 text = "Back"
 
+[connection signal="item_selected" from="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer/AlgorithmSelect" to="." method="_on_AlgorithmSelect_item_selected"]
 [connection signal="pressed" from="Panel/Back" to="." method="_on_Back_pressed"]

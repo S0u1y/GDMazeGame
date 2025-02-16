@@ -52,91 +52,102 @@ valign = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="Main Menu/VBoxContainer"]
 margin_top = 151.0
 margin_right = 650.0
-margin_bottom = 456.0
+margin_bottom = 459.0
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
 margin_left = 240.0
 margin_right = 409.0
-margin_bottom = 57.0
+margin_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
 [node name="Start Game" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer"]
-margin_top = 4.0
 margin_right = 169.0
-margin_bottom = 52.0
+margin_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Start Game"
 
 [node name="MarginContainer4" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
-margin_top = 61.0
+margin_top = 52.0
 margin_right = 650.0
-margin_bottom = 119.0
+margin_bottom = 100.0
 size_flags_vertical = 3
 
 [node name="2 Player Game" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer4"]
 margin_left = 217.0
-margin_top = 5.0
 margin_right = 433.0
-margin_bottom = 53.0
+margin_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "2 Player Game"
 
 [node name="MarginContainer5" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
-margin_top = 123.0
+margin_top = 104.0
 margin_right = 650.0
-margin_bottom = 181.0
+margin_bottom = 152.0
 size_flags_vertical = 3
 
 [node name="CosmeticsMenu" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer5"]
 margin_left = 243.0
-margin_top = 5.0
 margin_right = 406.0
-margin_bottom = 53.0
+margin_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Cosmetics"
 
 [node name="MarginContainer3" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
-margin_top = 185.0
+margin_top = 156.0
 margin_right = 650.0
-margin_bottom = 243.0
+margin_bottom = 204.0
 size_flags_vertical = 3
 
 [node name="Analysis" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer3"]
 margin_left = 259.0
-margin_top = 5.0
 margin_right = 390.0
-margin_bottom = 53.0
+margin_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Analysis"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
-margin_top = 247.0
+margin_top = 208.0
 margin_right = 650.0
-margin_bottom = 305.0
+margin_bottom = 256.0
 size_flags_vertical = 3
 
 [node name="Settings" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer2"]
 margin_left = 261.0
-margin_top = 5.0
 margin_right = 388.0
-margin_bottom = 53.0
+margin_bottom = 48.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 text = "Settings"
+
+[node name="MarginContainer6" type="MarginContainer" parent="Main Menu/VBoxContainer/VBoxContainer"]
+margin_top = 260.0
+margin_right = 650.0
+margin_bottom = 308.0
+size_flags_vertical = 3
+
+[node name="Quit" type="Button" parent="Main Menu/VBoxContainer/VBoxContainer/MarginContainer6"]
+margin_left = 291.0
+margin_right = 359.0
+margin_bottom = 48.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "Quit"
 
 [connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer/Start Game" to="." method="_on_Start_Game_button_down"]
 [connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer4/2 Player Game" to="." method="_on_2_Player_Game_button_down"]
 [connection signal="pressed" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer5/CosmeticsMenu" to="." method="_on_CosmeticsMenu_pressed"]
 [connection signal="button_down" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer3/Analysis" to="." method="_on_Analysis_button_down"]
 [connection signal="pressed" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer2/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="Main Menu/VBoxContainer/VBoxContainer/MarginContainer6/Quit" to="." method="_on_Quit_pressed"]
