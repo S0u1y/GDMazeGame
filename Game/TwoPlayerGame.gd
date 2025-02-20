@@ -12,6 +12,4 @@ onready var player2_viewport =  $HBoxContainer/ViewportContainer2/Viewport
 #set both players variables
 func _ready():
 	player2_viewport.world_2d = player1_viewport.world_2d
-#	map1.player = player1
-#	map2.player = player2
 	

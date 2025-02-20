@@ -16,12 +16,14 @@ USER_LOCATION = str(ProjectSettings.globalize_path("user://"))
 #AnalysisStage:
 # TODO: add support for heatmap
 
-# TODO: set main game settings in here
 @exposed
 class GameController(Node):
 	
 	_maze: Maze = None
-	chosen_algorithm = export(str, "TruePrimsMST") 
+#	Settings
+	chosen_algorithm = export(str, "TruePrimsMST")
+	world_gen = export(str, "Entire World")
+	
 	game_difficulty = export(str)
 	game_state = ""
 	
@@ -45,16 +47,22 @@ class GameController(Node):
 		
 		self.make_folder()
 		self.make_folder("analysis")
-#		self.make_folder("data")
-#		try:
-#			with open(f"{self.saves_folder}/data/data", "rb") as _input:
-#				loaded = pickle.load(_input)
-#				self.data = self.to_gd(loaded)
-#		except FileNotFoundError:
-#			pass
-#		except EOFError:
-#			pass
+		try:
+			with open(f"{self.saves_folder}/settings", "rb") as _input:
+				loaded = pickle.load(_input)
+				self.chosen_algorithm = loaded["chosen_algorithm"]
+				self.world_gen = loaded["world_gen"]
+		except:
+			pass
 		
+	
+#	Save game settings
+	def _exit_tree(self):
+		with open(f"{self.saves_folder}/settings", "wb") as output:
+			pickle.dump({
+				"chosen_algorithm": str(self.chosen_algorithm),
+				"world_gen": str(self.world_gen),
+			}, output, pickle.HIGHEST_PROTOCOL)
 	
 #	TODO: handle permission error and other errors but skip fileExists err.
 	def make_folder(self, name:str=""):
@@ -101,7 +109,7 @@ class GameController(Node):
 		return self.to_gd(collisions)
 	
 	
-#	Getter functions work only (or mainly) assuming they get gdvariant input
+#	Getter functions work only (or mainly) assuming they return GDVariant
 	def get_maze_edges(self):
 		return self.to_gd(list(self._maze.G.edges))
 	
@@ -115,6 +123,9 @@ class GameController(Node):
 		return self.to_gd(list(self._maze.G[tuple(node)]))
 	
 	def get_maze_node_passages(self, node):
+		if tuple(node) not in self._maze.G:
+			return Array([None, None, None, None])
+		
 		edges = self._maze.G[tuple(node)]
 		
 		has_right_passage = False
@@ -208,8 +219,6 @@ class GameController(Node):
 				"game_type": str(self.game_type),
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
-#		with open(f"{self.saves_folder}/data/data", "wb") as output:
-#			pickle.dump(self.from_gd(self.data), output, pickle.HIGHEST_PROTOCOL)
 	
 	def load_game(self, game_folder):
 		if self.loaded_maze_location in (None, ""):
@@ -229,5 +238,6 @@ class GameController(Node):
 		for i, analyzer in enumerate(self._analyzers):
 			analyzer.load(f"{game_folder}/Analysis{i}")
 		
+	
 
 #self = GameController

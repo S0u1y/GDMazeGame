@@ -51,7 +51,8 @@ func _ready():
 	player_node.connect("toggle_map", self, "toggle_map")
 	
 func _on_player_moved(player_x, player_y):
-	update_player_position(world_to_map_position(player_x, player_y))
+	var new_player_map_pos = world_to_map_position(player_x, player_y)
+	update_player_position(new_player_map_pos)
 
 func make_wall(x,y,tile_coord):
 	GameController.make_tile_cell(tile_map, x, y, tile_coord)
@@ -106,7 +107,7 @@ func add_indicator(x, y, color: Color):
 	new_rect.rect_position = world_to_map_position(x, y) - new_rect.rect_size/2
 	viewport.add_child(new_rect)
 
-#divide position by (room_width/height * cell size) and then multiply by the map's cell size.
+#divide position by (room_width/height * world cell size) and then multiply by the map's cell size.
 func world_to_map_position(x, y) -> Vector2:
 	return Vector2(x / (GameController.room_width*walls_node.cell_size.x) * tile_map.cell_size.x * map_scale.x, y / (GameController.room_height*walls_node.cell_size.y) * tile_map.cell_size.y * map_scale.y)
 
