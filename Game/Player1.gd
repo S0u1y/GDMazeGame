@@ -1,8 +1,6 @@
 extends KinematicBody2D
 class_name Player
 
-onready var game_node = $"%Game"
-
 export var move_speed: float = 100
 var running = false
 
@@ -97,7 +95,7 @@ func _physics_process(_delta):
 		GameController.analyze_heatmap(self.position.x, self.position.y, player_controls.player_index)
 		var room = [int(position.x) / (GameController.room_width * 16), int(position.y) / (GameController.room_height * 16)]
 		if GameController.world_gen == "Chunked":
-			game_node.generate_chunk(room)
+			get_node("%Game").generate_chunk(room)
 		
 
 func _input(event):

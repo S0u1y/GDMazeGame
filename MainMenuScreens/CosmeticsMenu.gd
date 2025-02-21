@@ -1,4 +1,3 @@
-#TODO: add coin counters
 extends Control
 
 onready var purchase_container = $"%PurchaseContainer"
@@ -6,6 +5,8 @@ onready var cost_label = $"%Cost"
 
 onready var owned_container = $"%OwnedContainer"
 onready var equipped_btn = $"%Equipped"
+
+onready var coins_amount_label = $Panel/CoinsAmountContainer/HBoxContainer/Label
 
 var player_data = DataController._save.get_data()
 var cosmetics: Dictionary = player_data.cosmetics
@@ -20,6 +21,8 @@ func _ready():
 	GameController.paused = true
 	$Panel/Player1.velocity = Vector2(0, 1.1)
 	
+	coins_amount_label.text = str(player_data.coins)
+	
 	for cosmetic in cosmetics:
 		var new_button = Button.new()
 		new_button.name = cosmetic
@@ -33,6 +36,8 @@ func _ready():
 func _on_cosmetics_picked(cosmetic_name:String):
 	if cosmetic_name == selected_item:
 		return
+	if $"%NotEnoughMoney".visible:
+		$"%NotEnoughMoney".visible = false
 	
 	selected_item = cosmetic_name
 	last_cosmetic = selected_cosmetic
@@ -67,13 +72,22 @@ func _on_PurchaseBtn_pressed():
 	
 	if player_data.coins >= selected_cosmetic.cost:
 		player_data.coins -= selected_cosmetic.cost
+		coins_amount_label.text = str(player_data.coins)
 		selected_cosmetic.owned = true
 		purchase_container.visible = false
 		owned_container.visible = true
 		owned_container.get_node("Equipped").pressed = player_data.get_property_by_player_idx(selected_player+1, "equips")[selected_cosmetic.type] == selected_cosmetic
 	else:
-#		TODO: Finish no money window
-		print("cannot purchase")
+		purchase_container.visible = false
+		$"%NotEnoughMoney".visible = true
+		
+		yield(get_tree().create_timer(3), "timeout")
+		
+		if owned_container.visible or not $"%NotEnoughMoney".visible:
+			return
+		
+		purchase_container.visible = true
+		$"%NotEnoughMoney".visible = false
 
 
 func _on_Equipped_pressed():
@@ -89,6 +103,10 @@ func _on_player_changed(button):
 	
 	$Panel/Player1.load_player_equips(selected_player)
 	
+	selected_type = null
+	last_cosmetic = null
+	selected_item = null
+	selected_cosmetic = null
 	$Panel/CosmeticInfoContainer.visible = false
 	purchase_container.visible = false
 	owned_container.visible = false

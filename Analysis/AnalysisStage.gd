@@ -18,7 +18,7 @@ var selected_player_idx = 0
 
 func _ready():
 	var minutes = GameController.get_time()/60
-	$CanvasLayer/Time.text = "%d:%d" % [minutes, (minutes - floor(minutes))*100]
+	$CanvasLayer/Time.text = "Time %d:%d" % [minutes, (minutes - floor(minutes))*100]
 	
 	var movements: Array = GameController.get_analyzed_movement()
 	for i in movements.size():
@@ -46,6 +46,7 @@ func select_player(idx):
 	selected_player_idx = idx
 	$CanvasLayer/VBoxContainer/ShowPath.pressed = $Paths.get_children()[selected_player_idx+1].visible
 	$CanvasLayer/VBoxContainer/ShowCollisions.pressed = $Collisions.get_children()[selected_player_idx+1].visible
+	
 
 func generate_maze():
 #		Create maze walls from graph
@@ -135,12 +136,10 @@ func generate_heatmap():
 		$Heatmaps.add_child(new_player_heatmap_group)
 		
 #		Get max # of passes 
-		var total_n_passing = 0
 		var _max: float = 0
 		for room in heatmaps[i]:
 			var amount : float = heatmaps[i][room]
-			_max = max(heatmaps[i][room], _max)
-			total_n_passing += amount
+			_max = max(amount, _max)
 		
 		for room in heatmaps[i]:
 			var amount = heatmaps[i][room]
@@ -158,6 +157,8 @@ func generate_heatmap():
 			
 			new_heatmap_region.color.a = (amount / _max)
 			
+		
+	
 
 func _on_Button_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("Analysis"))
