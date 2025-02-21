@@ -47,6 +47,7 @@ class GameController(Node):
 		
 		self.make_folder()
 		self.make_folder("analysis")
+#		Load game settings
 		try:
 			with open(f"{self.saves_folder}/settings", "rb") as _input:
 				loaded = pickle.load(_input)
@@ -89,6 +90,7 @@ class GameController(Node):
 		nx.add_path(self._maze.G, ((0,-1), (0,0)))
 		nx.add_path(self._maze.G, ((self.n_cols-1, self.n_rows-1), (self.n_cols-1, self.n_rows)))
 	
+#	Getter functions return GDVariants for nodes communication 
 	def get_maze_algorithms(self):
 		return self.to_gd(maze_algorithms.get_keys())
 	
@@ -108,8 +110,12 @@ class GameController(Node):
 		
 		return self.to_gd(collisions)
 	
+	def get_analyzed_heatmaps(self):
+		heatmaps = [analyzer.heatmap for analyzer in self._analyzers]
+		print(heatmaps)
+		
+		return self.to_gd(heatmaps)
 	
-#	Getter functions work only (or mainly) assuming they return GDVariant
 	def get_maze_edges(self):
 		return self.to_gd(list(self._maze.G.edges))
 	

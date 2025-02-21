@@ -38,6 +38,7 @@ func _ready():
 		
 	
 	generate_collisions()
+	generate_heatmap()
 	generate_maze()
 	
 
@@ -107,8 +108,8 @@ func generate_collisions():
 		
 		var new_player_collisions_group = Node2D.new()
 		new_player_collisions_group.name = "Player%d" % i
-		$Collisions.add_child(new_player_collisions_group)
 		new_player_collisions_group.visible = false
+		$Collisions.add_child(new_player_collisions_group)
 		
 		for _collision in collisions[i]:
 			if _collision == last_collision:
@@ -119,9 +120,44 @@ func generate_collisions():
 			new_collision.rect_position = _collision
 			new_player_collisions_group.add_child(new_collision)
 			new_collision.visible = true
+			
 			last_collision = _collision
 		
 	
+
+func generate_heatmap():
+	var heatmaps = GameController.get_analyzed_heatmaps()
+	print(heatmaps)
+	for i in heatmaps.size():
+		var new_player_heatmap_group = Node2D.new()
+		new_player_heatmap_group.name = "Player%d" % i
+		new_player_heatmap_group.visible = false
+		$Heatmaps.add_child(new_player_heatmap_group)
+		
+#		Get max # of passes 
+		var total_n_passing = 0
+		var _max: float = 0
+		for room in heatmaps[i]:
+			var amount : float = heatmaps[i][room]
+			_max = max(heatmaps[i][room], _max)
+			total_n_passing += amount
+		
+		for room in heatmaps[i]:
+			var amount = heatmaps[i][room]
+			
+			var new_heatmap_region = ColorRect.new()
+			new_heatmap_region.color = colors[i]
+			new_heatmap_region.rect_position = Vector2(room[0] * GameController.room_width * 16, room[1] * GameController.room_height * 16)
+			new_heatmap_region.rect_size = Vector2(GameController.room_width * 16, GameController.room_height * 16)
+			new_heatmap_region.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			new_player_heatmap_group.add_child(new_heatmap_region)
+			
+			var new_amount_passed = Label.new()
+			new_amount_passed.text = str(amount)
+			new_heatmap_region.add_child(new_amount_passed)
+			
+			new_heatmap_region.color.a = (amount / _max)
+			
 
 func _on_Button_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("Analysis"))
@@ -134,3 +170,6 @@ func _on_ShowPath_pressed():
 
 func _on_ShowCollisions_pressed():
 	_toggle_visible($Collisions.get_children()[selected_player_idx+1])
+
+func _on_ShowHeatmap_pressed():
+	_toggle_visible($Heatmaps.get_children()[selected_player_idx])

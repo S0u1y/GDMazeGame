@@ -94,8 +94,8 @@ func _physics_process(_delta):
 	if tick_count > 20:
 		tick_count = 0
 		GameController.analyze_movement(self.position.x, self.position.y, player_controls.player_index)
+		GameController.analyze_heatmap(self.position.x, self.position.y, player_controls.player_index)
 		var room = [int(position.x) / (GameController.room_width * 16), int(position.y) / (GameController.room_height * 16)]
-		GameController.analyze_heatmap(room[0], room[1], player_controls.player_index)
 		if GameController.world_gen == "Chunked":
 			game_node.generate_chunk(room)
 		
