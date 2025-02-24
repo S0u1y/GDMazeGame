@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-#onready var map = $"../MapGrid"
 onready var title = $Panel/VBoxContainer/Label
 
 func _ready():
@@ -17,8 +16,6 @@ func show_end_menu():
 	
 func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
-#		if map.showing_map:
-#			map.toggle_map()
 		toggle_menu()
 
 func toggle_menu():

@@ -31,6 +31,7 @@ class Analyzer:
 	def analyze_heatmap(self, room_x, room_y):
 		room = (room_x, room_y)
 		if self.last_room != room:
+			self.last_room = room
 			if room in self.heatmap:
 				self.heatmap[room] += 1
 			else:

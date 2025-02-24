@@ -35,6 +35,8 @@ func _ready():
 		tile_map.set_scale(Vector2(1, room_height / room_width))
 	
 	map_scale = tile_map.transform.get_scale()
+	
+#	Wait for game_node to load and then add object indicators to the map.
 	if not game_node.is_node_ready():
 		yield(game_node, "ready")
 	

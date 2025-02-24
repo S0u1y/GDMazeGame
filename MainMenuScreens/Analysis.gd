@@ -2,7 +2,7 @@ extends Control
 
 export var main_menu_screen: PackedScene
 
-onready var file_button: Button = $Panel/VBoxContainer/ScrollContainer/VBoxContainer/FileButton
+onready var file_info = $Panel/VBoxContainer/ScrollContainer/VBoxContainer/FileInfo
 onready var button_container = $Panel/VBoxContainer/ScrollContainer/VBoxContainer
 
 var analysis_folder = "user://saves/analysis/"
@@ -16,10 +16,14 @@ func _ready():
 			if file_name == "." or file_name == "..":
 				file_name = directory.get_next()
 				continue
-			var copy = file_button.duplicate()
+			var copy = file_info.duplicate()
 			button_container.add_child(copy)
-			copy.text = file_name
-			copy.connect("button_down", self, "_on_file_button_down", [copy.text])
+			var difficulty = GameController.load_difficulty(ProjectSettings.globalize_path(analysis_folder+file_name))
+			if difficulty == null:
+				difficulty = ""
+			copy.get_node("Difficulty").text = difficulty
+			copy.get_node("FileButton").text = file_name
+			copy.get_node("FileButton").connect("button_down", self, "_on_file_button_down", [file_name])
 			copy.visible = true
 			
 			file_name = directory.get_next()

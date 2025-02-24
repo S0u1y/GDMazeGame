@@ -34,11 +34,6 @@ class Game(Node2D):
 		
 		
 		self.generate_maze()
-
-	def player_collided(self, collider, position):
-#		Gets the exact cell position the player collides with
-		local_position = collider.world_to_map(position)
-		room_index = [int (local_position.x/self.room_width), int (local_position.y/self.room_height)]
 	
 #	For generating chunks around player / entities.
 #	works only if world_gen is set to "Chunked"
@@ -136,7 +131,6 @@ class Game(Node2D):
 		
 	
 	def generate_rooms(self, nodes):
-		print("generating rooms")
 		for node in nodes:
 			self.generate_room(node)
 		

@@ -84,12 +84,12 @@ func _physics_process(_delta):
 			continue
 		var collider = collision.collider
 		if collider is TileMap and collider.name == "Walls":
-			GameController.analyze_collisions(collision.position.x, collision.position.y, 0, 0, player_controls.player_index)
+			GameController.analyze_collisions(collision.position.x, collision.position.y, -1, -1, player_controls.player_index)
 	
 	emit_signal("player_moved", position.x, position.y)
 	
 	tick_count +=1
-	if tick_count > 20:
+	if tick_count > 10:
 		tick_count = 0
 		GameController.analyze_movement(self.position.x, self.position.y, player_controls.player_index)
 		GameController.analyze_heatmap(self.position.x, self.position.y, player_controls.player_index)

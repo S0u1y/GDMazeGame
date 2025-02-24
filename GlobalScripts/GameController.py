@@ -223,6 +223,7 @@ class GameController(Node):
 				"room_width": self.room_width,
 				"room_height": self.room_height,
 				"game_type": str(self.game_type),
+				"game_difficulty": str(self.game_difficulty)
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
 	
@@ -237,6 +238,7 @@ class GameController(Node):
 				self.room_width = loaded["room_width"]
 				self.room_height = loaded["room_height"]
 				self.game_type = loaded["game_type"]
+				self.game_difficulty = loaded["game_difficulty"]
 		except KeyError:
 			pass
 		
@@ -244,6 +246,14 @@ class GameController(Node):
 		for i, analyzer in enumerate(self._analyzers):
 			analyzer.load(f"{game_folder}/Analysis{i}")
 		
+	
+	def load_difficulty(self, game_folder):
+		try:
+			with open(f"{game_folder}/settings", "rb") as _input:
+				return pickle.load(_input)["game_difficulty"]
+		except:
+			return None
+			pass
 	
 
 #self = GameController

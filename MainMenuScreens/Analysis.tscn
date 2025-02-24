@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://MainMenuScreens/Analysis.gd" type="Script" id=2]
@@ -6,6 +6,13 @@
 
 [sub_resource type="DynamicFont" id=1]
 size = 125
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.254902, 0.254902, 0.254902, 0.952941 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
@@ -46,6 +53,7 @@ margin_right = 650.0
 margin_bottom = 456.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/bg = SubResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/ScrollContainer"]
 margin_right = 650.0
@@ -53,15 +61,30 @@ margin_bottom = 305.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FileButton" type="Button" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="FileInfo" type="HBoxContainer" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
 visible = false
-margin_left = 239.0
-margin_right = 410.0
-margin_bottom = 44.0
-size_flags_horizontal = 4
+margin_right = 650.0
+margin_bottom = 48.0
+custom_constants/separation = 24
+alignment = 1
+
+[node name="Difficulty" type="Label" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/FileInfo"]
+margin_left = 163.0
+margin_top = 5.0
+margin_right = 290.0
+margin_bottom = 43.0
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 4 )
+text = "Difficulty"
+
+[node name="FileButton" type="Button" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/FileInfo"]
+margin_left = 314.0
+margin_right = 487.0
+margin_bottom = 48.0
+size_flags_horizontal = 0
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
-text = "TEXT"
+text = "Date/Name"
 flat = true
 
 [node name="Back" type="Button" parent="Panel"]

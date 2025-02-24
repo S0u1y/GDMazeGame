@@ -71,6 +71,7 @@ custom_constants/separation = 12
 [node name="Label" type="Label" parent="Panel/VBoxContainer/ScrollContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 margin_right = 636.0
 margin_bottom = 26.0
+mouse_filter = 1
 custom_fonts/font = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
 text = "Maze algorithm"

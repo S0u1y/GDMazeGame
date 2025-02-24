@@ -2,8 +2,6 @@ import pickle
 
 import networkx as nx
 
-
-# TODO: Finish load and save
 class Maze:
 	def __init__(self, width, height, maze_algorithm_type):
 		G = None

@@ -46,7 +46,7 @@ func select_player(idx):
 	selected_player_idx = idx
 	$CanvasLayer/VBoxContainer/ShowPath.pressed = $Paths.get_children()[selected_player_idx+1].visible
 	$CanvasLayer/VBoxContainer/ShowCollisions.pressed = $Collisions.get_children()[selected_player_idx+1].visible
-	
+	$CanvasLayer/VBoxContainer/ShowHeatmap.pressed = $Heatmaps.get_children()[selected_player_idx].visible
 
 func generate_maze():
 #		Create maze walls from graph
