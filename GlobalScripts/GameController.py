@@ -13,8 +13,6 @@ from GlobalScripts.Maze_Generators import *
 from GlobalScripts.Analyzer import Analyzer
 
 USER_LOCATION = str(ProjectSettings.globalize_path("user://"))
-#AnalysisStage:
-# TODO: add support for heatmap
 
 @exposed
 class GameController(Node):
@@ -112,7 +110,6 @@ class GameController(Node):
 	
 	def get_analyzed_heatmaps(self):
 		heatmaps = [analyzer.heatmap for analyzer in self._analyzers]
-		print(heatmaps)
 		
 		return self.to_gd(heatmaps)
 	
@@ -223,10 +220,10 @@ class GameController(Node):
 				"room_width": self.room_width,
 				"room_height": self.room_height,
 				"game_type": str(self.game_type),
-				"game_difficulty": str(self.game_difficulty)
+				"game_difficulty": str(self.game_difficulty),
+				"algorithm": str(self.chosen_algorithm),
 			}, output, pickle.HIGHEST_PROTOCOL)
 		
-	
 	def load_game(self, game_folder):
 		if self.loaded_maze_location in (None, ""):
 			self.loaded_maze_location = game_folder
@@ -247,13 +244,28 @@ class GameController(Node):
 			analyzer.load(f"{game_folder}/Analysis{i}")
 		
 	
-	def load_difficulty(self, game_folder):
+	def load_analysis_thumbnail(self, game_folder):
 		try:
 			with open(f"{game_folder}/settings", "rb") as _input:
-				return pickle.load(_input)["game_difficulty"]
+				return self.to_gd(loaded)
 		except:
 			return None
 			pass
 	
+	def load_difficulty(self, game_folder):
+		try:
+			with open(f"{game_folder}/settings", "rb") as _input:
+				loaded = pickle.load(_input)
+				return loaded["game_difficulty"]
+		except:
+			return None
+			pass
 
-#self = GameController
+	def load_algorithm(self, game_folder):
+		try:
+			with open(f"{game_folder}/settings", "rb") as _input:
+				loaded = pickle.load(_input)
+				return loaded["algorithm"]
+		except:
+			return None
+			pass

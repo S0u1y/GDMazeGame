@@ -148,5 +148,3 @@ func toggle_map():
 		switch_camera()
 	
 
-
-#TODO: Make functions to zoom or move camera in minimap

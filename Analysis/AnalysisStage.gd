@@ -128,7 +128,6 @@ func generate_collisions():
 
 func generate_heatmap():
 	var heatmaps = GameController.get_analyzed_heatmaps()
-	print(heatmaps)
 	for i in heatmaps.size():
 		var new_player_heatmap_group = Node2D.new()
 		new_player_heatmap_group.name = "Player%d" % i

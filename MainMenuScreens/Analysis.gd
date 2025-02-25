@@ -18,20 +18,24 @@ func _ready():
 				continue
 			var copy = file_info.duplicate()
 			button_container.add_child(copy)
+			
 			var difficulty = GameController.load_difficulty(ProjectSettings.globalize_path(analysis_folder+file_name))
+			var difficulty_label = copy.get_node("Difficulty")
 			if difficulty == null:
 				difficulty = ""
-			copy.get_node("Difficulty").text = difficulty
-			copy.get_node("FileButton").text = file_name
-			copy.get_node("FileButton").connect("button_down", self, "_on_file_button_down", [file_name])
+				difficulty_label.visible = false
+			elif difficulty == "Easy":
+				difficulty_label.add_color_override("font_color", Color8(0, 128, 0))
+			elif difficulty == "Medium":
+				difficulty_label.add_color_override("font_color", Color8(128, 64, 32))
+			else:
+				difficulty_label.add_color_override("font_color", Color8(128, 0, 0))
+			difficulty_label.text = difficulty
+			
+			copy.get_node("FileName").text = file_name
 			copy.visible = true
 			
 			file_name = directory.get_next()
-
-func _on_file_button_down(text):
-	GameController.load_game(ProjectSettings.globalize_path(analysis_folder+text))
-	get_tree().change_scene_to(SceneSwapper.get_scene("AnalysisStage"))
-
 
 func _on_Back_pressed():
 	get_tree().change_scene_to(SceneSwapper.get_scene("Main Menu"))
