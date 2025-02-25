@@ -247,25 +247,9 @@ class GameController(Node):
 	def load_analysis_thumbnail(self, game_folder):
 		try:
 			with open(f"{game_folder}/settings", "rb") as _input:
-				return self.to_gd(loaded)
+				return self.to_gd(pickle.load(_input))
 		except:
 			return None
 			pass
+		
 	
-	def load_difficulty(self, game_folder):
-		try:
-			with open(f"{game_folder}/settings", "rb") as _input:
-				loaded = pickle.load(_input)
-				return loaded["game_difficulty"]
-		except:
-			return None
-			pass
-
-	def load_algorithm(self, game_folder):
-		try:
-			with open(f"{game_folder}/settings", "rb") as _input:
-				loaded = pickle.load(_input)
-				return loaded["algorithm"]
-		except:
-			return None
-			pass

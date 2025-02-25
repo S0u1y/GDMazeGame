@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://MainMenuScreens/FileInfo.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.23, 0.207, 0.207, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="FileInfo" type="PanelContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 650.0
+margin_bottom = 38.0
+custom_styles/panel = SubResource( 5 )
+script = ExtResource( 2 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 650.0
+margin_bottom = 38.0
+custom_constants/separation = 24
+alignment = 1
+
+[node name="Difficulty" type="Label" parent="HBoxContainer"]
+margin_left = 168.0
+margin_right = 295.0
+margin_bottom = 38.0
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 4 )
+text = "Difficulty"
+
+[node name="Time" type="Label" parent="HBoxContainer"]
+visible = false
+margin_left = 189.0
+margin_right = 261.0
+margin_bottom = 38.0
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 4 )
+text = "Time"
+
+[node name="Algorithm" type="Label" parent="HBoxContainer"]
+visible = false
+margin_left = 237.0
+margin_right = 377.0
+margin_bottom = 38.0
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 4 )
+text = "Algorithm"
+
+[node name="FileName" type="Label" parent="HBoxContainer"]
+margin_left = 319.0
+margin_right = 482.0
+margin_bottom = 38.0
+mouse_filter = 1
+size_flags_horizontal = 0
+custom_fonts/font = SubResource( 2 )
+text = "Date/Name"
+
+[connection signal="mouse_entered" from="." to="." method="_on_FileInfo_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_FileInfo_mouse_exited"]

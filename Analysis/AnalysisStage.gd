@@ -18,7 +18,7 @@ var selected_player_idx = 0
 
 func _ready():
 	var minutes = GameController.get_time()/60
-	$CanvasLayer/Time.text = "Time %d:%d" % [minutes, (minutes - floor(minutes))*100]
+	$CanvasLayer/InfoContainer/Time.text = "Time %d:%d" % [minutes, (minutes - floor(minutes))*100]
 	
 	var movements: Array = GameController.get_analyzed_movement()
 	for i in movements.size():

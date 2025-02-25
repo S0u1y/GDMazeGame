@@ -16,23 +16,12 @@ func _ready():
 			if file_name == "." or file_name == "..":
 				file_name = directory.get_next()
 				continue
+			
 			var copy = file_info.duplicate()
+			
+			copy.file_name = file_name
+			
 			button_container.add_child(copy)
-			
-			var difficulty = GameController.load_difficulty(ProjectSettings.globalize_path(analysis_folder+file_name))
-			var difficulty_label = copy.get_node("Difficulty")
-			if difficulty == null:
-				difficulty = ""
-				difficulty_label.visible = false
-			elif difficulty == "Easy":
-				difficulty_label.add_color_override("font_color", Color8(0, 128, 0))
-			elif difficulty == "Medium":
-				difficulty_label.add_color_override("font_color", Color8(128, 64, 32))
-			else:
-				difficulty_label.add_color_override("font_color", Color8(128, 0, 0))
-			difficulty_label.text = difficulty
-			
-			copy.get_node("FileName").text = file_name
 			copy.visible = true
 			
 			file_name = directory.get_next()
