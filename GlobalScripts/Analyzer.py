@@ -39,6 +39,12 @@ class Analyzer:
 			
 		
 	
+	def get_time(self):
+		if not self._time:
+			return time.time() - self.start_time - self.paused_time
+		
+		return self._time
+	
 	def toggle_pause_timer(self):
 		self.paused = not self.paused
 		if self.paused:

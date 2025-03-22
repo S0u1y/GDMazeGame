@@ -22,6 +22,7 @@ func _on_Button_pressed():
 	GameController.n_cols = int (diff_size.x)
 	GameController.n_rows = int (diff_size.y)
 	GameController.game_difficulty = diff.name
+	GameController.score_bonus = diff.score_bonus
 	
 	GameController.initialize_new_game()
 	GameController.create_maze()

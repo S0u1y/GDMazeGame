@@ -17,8 +17,9 @@ var colors = [
 var selected_player_idx = 0
 
 func _ready():
-	var minutes = GameController.get_time()/60
-	$CanvasLayer/InfoContainer/Time.text = "Time %d:%d" % [minutes, (minutes - floor(minutes))*100]
+	var _time = GameController.get_time()
+	var minutes = int (_time/60)
+	$CanvasLayer/InfoContainer/Time.text = "Time %d:%d" % [minutes, _time - (minutes*60)]
 	
 	var movements: Array = GameController.get_analyzed_movement()
 	for i in movements.size():

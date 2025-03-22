@@ -21,24 +21,26 @@ class GameController(Node):
 #	Settings
 	chosen_algorithm = export(str, "TruePrimsMST")
 	world_gen = export(str, "Entire World")
-	
+#	Difficulty
 	game_difficulty = export(str)
+	score_bonus = export(float, 1.0)
+#	State of game
 	game_state = ""
-	
 	loaded_maze_location = export(str)
-	
 	game_type = export(str, "Single")
+	paused = False
 	
 	n_cols = export(int, 4)
 	n_rows = export(int, 4)
 	room_width = export(int, 8)
 	room_height = export(int, 8)
 	
+	score = export(int, 0)
+	coins = export(int, 0)
+	
 	_analyzers = []
 	
 	saves_folder = USER_LOCATION + "/saves/"
-	
-	paused = False
 	
 	def _ready(self):
 		self._analyzers = [Analyzer(), Analyzer()]
@@ -55,7 +57,7 @@ class GameController(Node):
 			pass
 		
 	
-#	Save game settings
+#	Save game settings when game is closed
 	def _exit_tree(self):
 		with open(f"{self.saves_folder}/settings", "wb") as output:
 			pickle.dump({
@@ -63,7 +65,6 @@ class GameController(Node):
 				"world_gen": str(self.world_gen),
 			}, output, pickle.HIGHEST_PROTOCOL)
 	
-#	TODO: handle permission error and other errors but skip fileExists err.
 	def make_folder(self, name:str=""):
 		try:
 			os.mkdir(self.saves_folder+name)
@@ -81,6 +82,8 @@ class GameController(Node):
 		for analyzer in self._analyzers:
 			analyzer.reset_timer()
 		self.paused = False
+		self.score = 0
+		self.coins = 0
 	
 #	Called when all settings for creating a maze are set
 	def create_maze(self):
@@ -154,7 +157,6 @@ class GameController(Node):
 	def get_time(self):
 		return self.to_gd(self._analyzers[0]._time)
 	
-	
 	def toggle_pause_game(self):
 		self.paused = not self.paused
 		self.toggle_pause_timer()
@@ -175,6 +177,28 @@ class GameController(Node):
 	def analyze_heatmap(self, player_x, player_y, player_idx):
 		room_index = [int (player_x/(self.room_width * 16)), int (player_y/(self.room_height * 16))]
 		self._analyzers[player_idx].analyze_heatmap(room_index[0], room_index[1])
+
+#	Calculate score based on best and worst time of passing a level
+	def calculate_score(self, time_worst=120, time_best=35):
+		_time = self._analyzers[0].get_time()
+		time_bonus = 0
+		if str(self.game_difficulty) == "Easy":
+			time_bonus = (120-_time)/(120-35)
+			
+		elif str(self.game_difficulty) == "Medium":
+			time_bonus = (240-_time)/(240-60)
+			
+		elif str(self.game_difficulty) == "Hard":
+			time_bonus = (720-_time)/(720-180)
+			
+		else:
+			time_bonus = (time_worst-_time)/(time_worst-time_best)
+		
+#		250 is a selected baseline for score 
+#		and the max function ensures the score won't fall into negatives.
+		self.score = (250 + self.coins * 10) * self.score_bonus + 250 * max(0.5, time_bonus)
+		self.score = math.ceil(self.score*100)/100
+		pass
 
 	def to_gd(self, var):
 		if isinstance(var, (list, tuple)):

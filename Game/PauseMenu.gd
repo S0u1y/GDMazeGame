@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 onready var title = $Panel/VBoxContainer/Label
+onready var score_label = $Panel/VBoxContainer/Score
 
 func _ready():
 	pass 
@@ -19,10 +20,15 @@ func _process(_delta):
 		toggle_menu()
 
 func toggle_menu():
+	if not self.visible:
+		GameController.calculate_score()
+		score_label.text = "Score: " + String(GameController.score)
+	
 	if GameController.game_state == "Ended":
 		self.visible = true
 		GameController.paused = true
 		return
+	
 	self.visible = not self.visible
 	GameController.toggle_pause_game()
 

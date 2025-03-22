@@ -7,3 +7,4 @@ script = ExtResource( 1 )
 name = "Hard"
 size = Vector2( 35, 35 )
 multiplayer_size = Vector2( 50, 50 )
+score_bonus = 1.5
