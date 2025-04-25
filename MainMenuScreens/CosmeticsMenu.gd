@@ -91,7 +91,13 @@ func _on_PurchaseBtn_pressed():
 
 
 func _on_Equipped_pressed():
-	player_data.get_property_by_player_idx(selected_player+1, "equips")[selected_type] = selected_cosmetic
+	var player_equips = player_data.get_property_by_player_idx(selected_player+1, "equips")
+	
+	if not equipped_btn.pressed:
+		player_equips[selected_type] = null
+		return
+	
+	player_equips[selected_type] = selected_cosmetic
 
 func _on_player_changed(button):
 	if button.name == "Player2":

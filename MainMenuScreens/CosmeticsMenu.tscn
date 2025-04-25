@@ -125,7 +125,6 @@ text = "NOT ENOUGH COINS!!!"
 align = 1
 valign = 1
 uppercase = true
-percent_visible = -0.0588235
 
 [node name="OwnedContainer" type="VBoxContainer" parent="Panel/CosmeticInfoContainer"]
 unique_name_in_owner = true
