@@ -1,0 +1,1 @@
+Aplikace by měla jet hned po extrahování, knihovny jsou nainstalovány předem. Stačí spustit spouštěč pro systém, na kterém aplikaci chcete zapnout.
