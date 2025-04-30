@@ -167,17 +167,17 @@ class GameController(Node):
 	
 	def make_tile_cell(self, tile_map:TileMap, x, y, autotile_coord:Vector2):
 		tile_map.set_cell(x,y,0,autotile_coord=autotile_coord)
-
+	
 	def analyze_movement(self, player_x, player_y, player_idx):
 		self._analyzers[player_idx].analyze_movement(player_x, player_y)
-
+	
 	def analyze_collisions(self, world_x, world_y, wall_x, wall_y, player_idx):
 		self._analyzers[player_idx].analyze_collisions(world_x, world_y, wall_x, wall_y)
-
+	
 	def analyze_heatmap(self, player_x, player_y, player_idx):
 		room_index = [int (player_x/(self.room_width * 16)), int (player_y/(self.room_height * 16))]
 		self._analyzers[player_idx].analyze_heatmap(room_index[0], room_index[1])
-
+	
 #	Calculate score based on best and worst time of passing a level
 	def calculate_score(self, time_worst=120, time_best=35):
 		_time = self._analyzers[0].get_time()
@@ -198,8 +198,8 @@ class GameController(Node):
 #		and the max function ensures the score won't fall into negatives.
 		self.score = (250 + self.coins * 10) * self.score_bonus + 250 * max(0.5, time_bonus)
 		self.score = math.ceil(self.score*100)/100
-		pass
-
+		
+	
 	def to_gd(self, var):
 		if isinstance(var, (list, tuple)):
 			return Array([self.to_gd(item) for item in var])
@@ -207,7 +207,7 @@ class GameController(Node):
 			return Dictionary({self.to_gd(key): self.to_gd(value) for key, value in var.items()})
 		
 		return var
-
+	
 	def from_gd(self, var):
 		if isinstance(var, (tuple, list)):
 			py_var = [self.from_gd(item) for item in var]
